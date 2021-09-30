@@ -26,7 +26,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build and Test
-        run: mvn -B -U clean package -s settings.xml
+        run: mvn -B -U clean package -s settings.xml -Dimage=ghcr.io/andidroid/testhollowjar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: upload artifact
@@ -54,6 +54,6 @@ jobs:
           server-id: ghcr.io
 
       - name: Publish to GitHub Container Registry
-        run: mvn compile com.google.cloud.tools:jib-maven-plugin:3.0.0:build -Dimage=ghcr.io/andidroid/testhollowjar
+        run: mvn compile com.google.cloud.tools:jib-maven-plugin:3.1.4:build -Dimage=ghcr.io/andidroid/testhollowjar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

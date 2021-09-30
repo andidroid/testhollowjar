@@ -1,0 +1,16 @@
+batch
+
+/subsystem=datasources/data-source=PostgreSQLDS:undefine-attribute(name=password)
+/subsystem=datasources/data-source=PostgreSQLDS:undefine-attribute(name=user-name)
+
+/subsystem=datasources/data-source=PostgreSQLDS:write-attribute(name=elytron-enabled,value=true)
+
+/subsystem=elytron/authentication-configuration=postgresAuthConfig:add(authentication-name=postgres,credential-reference={clear-text=postgres})
+
+/subsystem=elytron/authentication-context=postgresAuthContext:add(match-rules=[{authentication-configuration=postgresAuthConfig}])
+
+/subsystem=datasources/data-source=PostgreSQLDS:write-attribute(name=authentication-context,value=postgresAuthContext)
+
+reload
+
+run-batch

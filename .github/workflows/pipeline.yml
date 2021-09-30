@@ -34,18 +34,6 @@ jobs:
         with:
           name: testhollowjar-artifact
           path: target/testhollowjar.jar
-
-  docker:
-    name: Docker
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Git Checkout
-        uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-        with:
-          name: testhollowjar-artifact
-          path: target/testhollowjar.jar
       - name: Set up JDK 11 for deploy to GitHub Container Registry
         uses: actions/setup-java@v2
         with:

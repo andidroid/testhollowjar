@@ -52,8 +52,8 @@ jobs:
           distribution: "adopt"
           java-version: "11"
           server-id: ghcr.io
-
+          settings-path: ${{ github.workspace }}
       - name: Publish to GitHub Container Registry
-        run: mvn compile com.google.cloud.tools:jib-maven-plugin:3.1.4:build -Dimage=ghcr.io/andidroid/testhollowjar
+        run: mvn com.google.cloud.tools:jib-maven-plugin:3.1.4:build -Dimage=ghcr.io/andidroid/testhollowjar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -320,17 +320,17 @@
             <mainClass>org.wildfly.core.jar.boot.Main</mainClass>
           </container>
         </configuration>
+        <!--
         <executions>
           <execution>
             <phase>package</phase>
             <goals>
               <goal>dockerBuild</goal>
-              <!-- to push to external repo -->
-              <!-- <goal>build</goal> -->
               <goal>build</goal>
             </goals>
           </execution>
         </executions>
+      -->
       </plugin>
 
     </plugins>

@@ -77,6 +77,7 @@
 
     <wildfly-jar-maven-plugin.version>6.0.0.Final</wildfly-jar-maven-plugin.version>
     <jkube.version>1.4.0</jkube.version>
+    <jib.version>3.1.4</jib.version>
     <flyway.version>7.15.0</flyway.version>
     <postgres.version>42.2.24</postgres.version>
   </properties>
@@ -221,7 +222,13 @@
     <finalName>${project.artifactId}</finalName>
     <pluginManagement>
       <!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
-      <plugins></plugins>
+      <plugins>
+        <plugin>
+          <groupId>com.google.cloud.tools</groupId>
+          <artifactId>jib-maven-plugin</artifactId>
+          <version>${jib.version}</version>
+        </plugin>
+      </plugins>
     </pluginManagement>
     <plugins>
 
@@ -294,7 +301,6 @@
       <plugin>
         <groupId>com.google.cloud.tools</groupId>
         <artifactId>jib-maven-plugin</artifactId>
-        <version>3.1.4</version>
         <configuration>
           <containerizingMode>packaged</containerizingMode>
           <to>

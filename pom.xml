@@ -8,7 +8,7 @@
     <version>0.0.25</version>
   </parent>
   <artifactId>testhollowjar</artifactId>
-  <version>0.1.1-SNAPSHOT</version>
+  <version>0.1.3-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>testhollowjar</name>
@@ -71,7 +71,7 @@
     <mockserver-client-java.version>5.11.2</mockserver-client-java.version>
 
 
-    <wildfly.version>25.0.0.Beta1</wildfly.version>
+    <wildfly.version>25.0.0.Final</wildfly.version>
 
     <wildfly-datasources-galleon-pack.version>2.0.3.Final</wildfly-datasources-galleon-pack.version>
 
@@ -269,16 +269,17 @@
           </excluded-layers>
           <cli-sessions>
             <cli-session>
+              <properties-file>cli-scripts/cli.properties</properties-file>
               <script-files>
+                <script>cli-scripts/security-credentialstore.cli</script>
                 <script>cli-scripts/security-datasource.cli</script>
+                <script>cli-scripts/security-management.cli</script>
               </script-files>
             </cli-session>
           </cli-sessions>
-          <!--
           <extra-server-content-dirs>
             <extra-content>extra-content</extra-content>
           </extra-server-content-dirs>
-        -->
           <plugin-options>
             <jboss-fork-embedded>${plugin.fork.embedded}</jboss-fork-embedded>
           </plugin-options>

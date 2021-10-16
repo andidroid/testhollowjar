@@ -251,6 +251,7 @@
             <layer>jaxrs</layer>
             <layer>observability</layer>
             <layer>cloud-profile</layer>
+            <layer>web-clustering</layer>
 
             <!--
             <layer>remote-activemq</layer>

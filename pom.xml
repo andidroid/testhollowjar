@@ -286,6 +286,7 @@
           </plugin-options>
           <cloud>
             <type>kubernetes</type>
+            <enable-jgroups-password>true</enable-jgroups-password>
           </cloud>
           <hollow-jar>true</hollow-jar>
           <output-file-name>testhollowjar.jar</output-file-name>

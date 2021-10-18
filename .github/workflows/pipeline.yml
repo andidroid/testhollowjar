@@ -57,3 +57,10 @@ jobs:
         uses: anchore/scan-action@v3
         with:
           image: ghcr.io/andidroid/testhollowjar
+          fail-build: false
+          sarif: sarif.txt
+      - name: upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: sarif.txt
+          path: sarif.txt

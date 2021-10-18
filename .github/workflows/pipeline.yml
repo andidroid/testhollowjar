@@ -54,13 +54,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Scan image
+        id: scan
         uses: anchore/scan-action@v3
         with:
           image: ghcr.io/andidroid/testhollowjar
           fail-build: false
-          sarif: sarif.txt
+          acs-report-enable: true
       - name: upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: sarif.txt
-          path: sarif.txt
+          path: ${{ steps.scan.outputs.sarif }}
+      - name: Inspect action SARIF report
+        run: cat ${{ steps.scan.outputs.sarif }}

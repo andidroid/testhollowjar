@@ -274,10 +274,12 @@
               <script-files>
                 <script>cli-scripts/security-credentialstore.cli</script>
                 <script>cli-scripts/security-datasource.cli</script>
+                <script>cli-scripts/security-tls.cli</script>
                 <script>cli-scripts/security-management.cli</script>
               </script-files>
             </cli-session>
           </cli-sessions>
+          <displayCliScriptsOutput>true</displayCliScriptsOutput>
           <extra-server-content-dirs>
             <extra-content>extra-content</extra-content>
           </extra-server-content-dirs>

@@ -53,3 +53,7 @@ jobs:
         run: mvn com.google.cloud.tools:jib-maven-plugin:3.1.4:build -Dimage=ghcr.io/andidroid/testhollowjar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Scan image
+        uses: anchore/scan-action@v3
+        with:
+          image: ghcr.io/andidroid/testhollowjar

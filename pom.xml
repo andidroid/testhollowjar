@@ -326,11 +326,10 @@
           <container>
             <args>
               <!-- required to create a route -->
-              <arg>
-                        -b=0.0.0.0
-                    </arg>
+              <arg>-b=0.0.0.0</arg>
               <!-- Deployed app installed by next layer -->
               <arg>--deployment=/deployments/ROOT.war/</arg>
+              <arg>--install-dir=/wildfly</arg>
             </args>
             <ports>
               <port>8080</port>

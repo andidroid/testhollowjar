@@ -75,6 +75,7 @@
 
     <wildfly-datasources-galleon-pack.version>2.0.3.Final</wildfly-datasources-galleon-pack.version>
 
+    <wildfly-maven-plugin.version>2.1.0.Final</wildfly-maven-plugin.version>
     <wildfly-jar-maven-plugin.version>6.0.0.Final</wildfly-jar-maven-plugin.version>
     <jkube.version>1.4.0</jkube.version>
     <jib.version>3.1.4</jib.version>
@@ -231,6 +232,15 @@
       </plugins>
     </pluginManagement>
     <plugins>
+
+      <plugin>
+        <groupId>org.wildfly.plugins</groupId>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <version>${wildfly-maven-plugin.version}</version>
+        <configuration>
+          <jboss-home>target/bootable-jar-build-artifacts/wildfly</jboss-home>
+        </configuration>
+      </plugin>
 
       <plugin>
         <groupId>org.wildfly.plugins</groupId>

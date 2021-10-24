@@ -1,9 +1,16 @@
 # Configure Server Keystore
-/subsystem=elytron/key-store=serverKeyStore:add(path=server.keystore,relative-to=jboss.server.config.dir, credential-reference={clear-text=password},type=JKS)
+/subsystem=elytron/key-store=serverKeyStore:add(path=server.keystore,relative-to=jboss.server.config.dir, credential-reference={store=credential-store, alias=password},type=JKS)
 # Server Keystore credentials
-/subsystem=elytron/key-manager=serverKeyManager:add(key-store=serverKeyStore,credential-reference={clear-text=password},generate-self-signed-certificate-host=localhost)
+/subsystem=elytron/key-manager=serverKeyManager:add(key-store=serverKeyStore,credential-reference={store=credential-store, alias=password},generate-self-signed-certificate-host=localhost)
+# Add the Truststore, TrustManager to a SSL Context configuration
+/subsystem=elytron/key-store=serverTrustStore:add(path=server.truststore,relative-to=jboss.server.config.dir,type=JKS,credential-reference={store=credential-store, alias=password})
+/subsystem=elytron/trust-manager=serverTrustManager:add(key-store=serverTrustStore)
+
 # Server keystore Protocols
-/subsystem=elytron/server-ssl-context=serverSSLContext:add(key-manager=serverKeyManager,protocols=["TLSv1.2"])
+/subsystem=elytron/server-ssl-context=serverSSLContext:add(key-manager=serverKeyManager,trust-manager=serverTrustManager,protocols=[TLSv1.2,TLSv1.3],need-client-auth=true)
+/subsystem=elytron/server-ssl-context=serverSSLContext:write-attribute(name=cipher-suite-names,value=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256)
+
+
 # This is only needed if WildFly uses by default the Legacy security realm
 ### /subsystem=undertow/server=default-server/https-listener=https:undefine-attribute(name=security-realm)
 # Store SSL Context information in undertow
@@ -11,30 +18,24 @@
 /subsystem=undertow/server=default-server/https-listener=https:add(socket-binding=https,enable-http2=true,ssl-context=serverSSLContext)
 # /subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=ssl-context,value=serverSSLContext)
 
-
-# Add the Truststore, TrustManager to a SSL Context configuration
-/subsystem=elytron/key-store=serverTrustStore:add(path=server.truststore,relative-to=jboss.server.config.dir,type=JKS,credential-reference={clear-text=password})
-/subsystem=elytron/trust-manager=serverTrustManager:add(key-store=serverTrustStore)
-/subsystem=elytron/server-ssl-context=twoWaySSLContext:add(key-manager=serverKeyManager,trust-manager=serverTrustManager,protocols=[TLSv1.2],need-client-auth=true)
-
 # This is only needed if WildFly uses by default the Legacy security realm 
 ### /subsystem=undertow/server=default-server/https-listener=https:undefine-attribute(name=security-realm)
 
 # Store SSL Context information in undertow 
-/subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=ssl-context,value=twoWaySSLContext)
+/subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=ssl-context,value=serverSSLContext)
  
-# Add TLSv1.3 and Cipher Suites
-/subsystem=elytron/server-ssl-context=serverSSLContext:write-attribute(name=protocols,value=[TLSv1.2,TLSv1.3])
-/subsystem=elytron/server-ssl-context=serverSSLContext:write-attribute(name=cipher-suite-names,value=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256)
-/subsystem=elytron/server-ssl-context=twoWaySSLContext:write-attribute(name=protocols,value=[TLSv1.2,TLSv1.3])
-/subsystem=elytron/server-ssl-context=twoWaySSLContext:write-attribute(name=cipher-suite-names,value=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256)
 
-
-/subsystem=elytron/server-ssl-context=halSSLContext:add(key-manager=serverKeyManager,trust-manager=serverTrustManager,protocols=[TLSv1.2],want-client-auth=true)
-/subsystem=elytron/server-ssl-context=halSSLContext:write-attribute(name=protocols,value=[TLSv1.2,TLSv1.3])
+# tls for hal management console
+/subsystem=elytron/server-ssl-context=halSSLContext:add(key-manager=serverKeyManager,trust-manager=serverTrustManager,protocols=[TLSv1.2,TLSv1.3],want-client-auth=true)
 /subsystem=elytron/server-ssl-context=halSSLContext:write-attribute(name=cipher-suite-names,value=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256)
 
+# clean up old values
+/subsystem=elytron/server-ssl-context=applicationSSC:remove()
+/subsystem=elytron/key-manager=applicationKM:remove()
+/subsystem=elytron/key-store=applicationKS:remove()
 
+# Configuring Strict Transport Security (HSTS)
+# http://www.mastertheboss.com/web/jboss-web-server/configuring-strict-transport-security-hsts-on-wildfly/
 
-
-
+/subsystem=undertow/configuration=filter/response-header=hsts-header:add(header-name="Strict-Transport-Security",header-value="max-age=31536000;")
+/subsystem=undertow/server=default-server/host=default-host/filter-ref=hsts-header:add

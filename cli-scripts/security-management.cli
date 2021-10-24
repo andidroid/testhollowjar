@@ -17,12 +17,7 @@
 # Set the auth factory on the management interface
 /core-service=management/management-interface=http-interface:write-attribute(name=http-authentication-factory,value=management-http-authenticationFs)
 /core-service=management/management-interface=http-interface:write-attribute(name=console-enabled,value=true)
-
-
-
-########
-/core-service=management/management-interface=http-interface:write-attribute(name=ssl-context,value=serverSSLContext)
-# twoWaySSLContext
+/core-service=management/management-interface=http-interface:write-attribute(name=ssl-context,value=halSSLContext)
 /core-service=management/management-interface=http-interface:write-attribute(name=secure-socket-binding,value=management-https)
 
-# /core-service=management/management-interface=http-interface:add(console-enabled=true, secure-socket-binding=management-https, ssl-context=twoWaySSLContext, http-authentication-factory=management-http-authenticationFs)
+# /core-service=management/management-interface=http-interface:add(console-enabled=true, secure-socket-binding=management-https, ssl-context=halSSLContext, http-authentication-factory=management-http-authenticationFs)

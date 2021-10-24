@@ -1,47 +1,56 @@
-
-
-
 # create realm
-/subsystem=elytron/filesystem-realm=WEBGISRealm:add(path=filesystemrealm,relative-to=jboss.server.config.dir)
+/subsystem=elytron/filesystem-realm=applicationFsRealm:add(path=filesystemrealm,relative-to=jboss.server.config.dir)
 
-/subsystem=elytron/filesystem-realm=WEBGISRealm:add-identity(identity=user)
-/subsystem=elytron/filesystem-realm=WEBGISRealm:set-password(clear={password="user"}, identity=user)
-/subsystem=elytron/filesystem-realm=WEBGISRealm:add-identity-attribute(identity=user, name=Roles, value=["user","feature","test","routing","osm"])
+/subsystem=elytron/filesystem-realm=applicationFsRealm:add-identity(identity=user)
+/subsystem=elytron/filesystem-realm=applicationFsRealm:set-password(clear={password="user"}, identity=user)
+/subsystem=elytron/filesystem-realm=applicationFsRealm:add-identity-attribute(identity=user, name=Roles, value=["user","test"])
+
+/subsystem=elytron/filesystem-realm=applicationFsRealm:add-identity(identity=admin)
+/subsystem=elytron/filesystem-realm=applicationFsRealm:set-password(clear={password="admin"}, identity=user)
+/subsystem=elytron/filesystem-realm=applicationFsRealm:add-identity-attribute(identity=admin, name=Roles, value=["admin","user","test"])
 
 /subsystem=elytron/simple-role-decoder=from-roles-attribute:add(attribute=Roles)
 
 # Creates a Security Domain
-/subsystem=elytron/security-domain=WEBGISSecurityDomain:add(realms=[{realm=WEBGISRealm,role-decoder=from-roles-attribute}],default-realm=WEBGISRealm,permission-mapper=default-permission-mapper)
+/subsystem=elytron/security-domain=applicationFsSecurityDomain:add(realms=[{realm=applicationFsRealm,role-decoder=from-roles-attribute}],default-realm=applicationFsRealm,permission-mapper=default-permission-mapper)
 # Configure an http-authentication-factory:
-/subsystem=elytron/http-authentication-factory=webgis-http-authentication:add(http-server-mechanism-factory=global,security-domain=WEBGISSecurityDomain,mechanism-configurations=[{mechanism-name=BASIC,mechanism-realm-configurations=[{realm-name=WEBGISRealm}]}])
+/subsystem=elytron/http-authentication-factory=applicationFs-http-authentication:add(http-server-mechanism-factory=global,security-domain=applicationFsSecurityDomain,mechanism-configurations=[{mechanism-name=BASIC,mechanism-realm-configurations=[{realm-name=applicationFsRealm}]}])
 
 /subsystem=elytron/http-authentication-factory=application-http-authentication:add(http-server-mechanism-factory=global,security-domain=ApplicationDomain,mechanism-configurations=[{mechanism-name=DIGEST,mechanism-realm-configurations=[{realm-name=ApplicationRealm}]}])
 
 
-/subsystem=undertow/application-security-domain=WEBGISSecurityDomain:add(http-authentication-factory=webgis-http-authentication)
+/subsystem=undertow/application-security-domain=applicationFsSecurityDomain:add(http-authentication-factory=applicationFs-http-authentication)
 /subsystem=undertow/application-security-domain=ApplicationDomain:add(http-authentication-factory=application-http-authentication)
 
 # set default application-security-domain
-/subsystem=undertow:write-attribute(name=default-security-domain, value="ApplicationDomain")
+/subsystem=undertow:write-attribute(name=default-security-domain, value="applicationFsSecurityDomain")
 # override-deployment-config
-/subsystem=undertow/application-security-domain=ApplicationDomain:write-attribute(name=override-deployment-config,value=true)
+/subsystem=undertow/application-security-domain=applicationFsSecurityDomain:write-attribute(name=override-deployment-config,value=true)
 
-/subsystem=elytron/http-authentication-factory=application-http-authentication:list-add(name=mechanism-configurations, value={mechanism-name=FORM,mechanism-realm-configurations=[{realm-name=ApplicationRealm}]})
-/subsystem=elytron/http-authentication-factory=application-http-authentication:list-add(name=mechanism-configurations, value={mechanism-name=BASIC,mechanism-realm-configurations=[{realm-name=ApplicationRealm}]})
+/subsystem=elytron/http-authentication-factory=applicationFs-http-authentication:list-add(name=mechanism-configurations, value={mechanism-name=FORM,mechanism-realm-configurations=[{realm-name=ApplicationRealm}]})
+/subsystem=elytron/http-authentication-factory=applicationFs-http-authentication:list-add(name=mechanism-configurations, value={mechanism-name=BASIC,mechanism-realm-configurations=[{realm-name=ApplicationRealm}]})
 
 # JACC
 /subsystem=elytron/policy=jacc:add(jacc-policy={})
-/subsystem=undertow/application-security-domain=ApplicationDomain:write-attribute(name=enable-jacc,value=true)
+/subsystem=undertow/application-security-domain=applicationFsSecurityDomain:write-attribute(name=enable-jacc,value=true)
 
 
 
 # SSO
 # client ssl context
-/subsystem=elytron/client-ssl-context=serverClientSSLContext:add(key-manager=clientKeyManager,trust-manager=clientTrustManager)
-/subsystem=elytron/client-ssl-context=serverClientSSLContext:write-attribute(name=protocols,value=[TLSv1.2,TLSv1.3])
-/subsystem=elytron/client-ssl-context=serverClientSSLContext:write-attribute(name=cipher-suite-names,value=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256)
+
+# Configure Client Keystore
+/subsystem=elytron/key-store=clientKeyStore:add(path=client.keystore,relative-to=jboss.server.config.dir, credential-reference={store=credential-store, alias=password},type=JKS)
+/subsystem=elytron/key-manager=clientKeyManager:add(key-store=clientKeyStore,credential-reference={store=credential-store, alias=password},generate-self-signed-certificate-host=localhost)
+# Add the Truststore, TrustManager to a SSL Context configuration
+/subsystem=elytron/key-store=clientTrustStore:add(path=client.truststore,relative-to=jboss.server.config.dir,type=JKS,credential-reference={store=credential-store, alias=password})
+/subsystem=elytron/trust-manager=clientTrustManager:add(key-store=clientTrustStore)
+
+/subsystem=elytron/client-ssl-context=clientSSLContext:add(key-manager=clientKeyManager,trust-manager=clientTrustManager)
+/subsystem=elytron/client-ssl-context=clientSSLContext:write-attribute(name=protocols,value=[TLSv1.2,TLSv1.3])
+/subsystem=elytron/client-ssl-context=clientSSLContext:write-attribute(name=cipher-suite-names,value=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256)
 
 # SSO
-/subsystem=undertow/application-security-domain=ApplicationDomain/setting=single-sign-on:add(key-store=serverKeyStore, key-alias=localhost, domain=localhost, credential-reference={clear-text=password}, client-ssl-context=serverClientSSLContext, http-only=true, secure=true)
+/subsystem=undertow/application-security-domain=applicationFsSecurityDomain/setting=single-sign-on:add(key-store=serverKeyStore, key-alias=localhost, domain=localhost, credential-reference={clear-text=password}, client-ssl-context=clientSSLContext, http-only=true, secure=true)
 
 

@@ -259,10 +259,11 @@
           </feature-packs>
           <layers>
             <layer>jaxrs</layer>
+            <layer>logging</layer>
             <layer>observability</layer>
             <layer>cloud-profile</layer>
             <layer>web-clustering</layer>
-
+            <layer>elytron-oidc-client</layer>
             <!--
             <layer>remote-activemq</layer>
             -->
@@ -280,9 +281,17 @@
           </excluded-layers>
           <cli-sessions>
             <cli-session>
+              <resolve-expressions>false</resolve-expressions>
+              <script-files>
+
+                <script>cli-scripts/system-logging.cli</script>
+                <!-- -->
+                <script>cli-scripts/system-tracing.cli</script>
+              </script-files>
+            </cli-session>
+            <cli-session>
               <properties-file>cli-scripts/cli.properties</properties-file>
               <script-files>
-                <script>cli-scripts/system-logging.cli</script>
                 <script>cli-scripts/security-credentialstore.cli</script>
                 <script>cli-scripts/security-datasource.cli</script>
                 <script>cli-scripts/security-tls.cli</script>

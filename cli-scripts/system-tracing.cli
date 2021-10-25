@@ -1,0 +1,2 @@
+/subsystem=microprofile-opentracing-smallrye/jaeger-tracer=jaeger/:add(tracer_id_128bit=false,propagation=[JAEGER],reporter-log-spans=true,sampler-param=1.0,sampler-type=remote,sender-endpoint=${jaeger-collector.url,env.JAEGER_COLLECTOR_URL:https://localhost:14268/api/traces})
+/subsystem=microprofile-opentracing-smallrye/:write-attribute(name=default-tracer,value=jaeger)

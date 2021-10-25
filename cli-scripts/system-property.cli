@@ -1,0 +1,2 @@
+# activate statistics
+/system-property=wildfly.statistics-enabled:add(value=true)

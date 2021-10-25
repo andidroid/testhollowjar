@@ -2,4 +2,5 @@
 /subsystem=logging/root-logger=ROOT:remove-handler(name=FILE)
 
 # access logging to console
-/subsystem=undertow/server=default-server/host=default-host/setting=console-access-log:add
+# java.lang.NoClassDefFoundError: org/wildfly/event/logger/EventFormatter
+#/subsystem=undertow/server=default-server/host=default-host/setting=console-access-log:add

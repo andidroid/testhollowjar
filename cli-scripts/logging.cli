@@ -1,0 +1,5 @@
+# remove file handler
+/subsystem=logging/root-logger=ROOT:remove-handler(name=FILE)
+
+# access logging to console
+/subsystem=undertow/server=default-server/host=default-host/setting=console-access-log:add

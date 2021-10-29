@@ -77,7 +77,7 @@
 
     <wildfly-maven-plugin.version>2.1.0.Final</wildfly-maven-plugin.version>
     <wildfly-jar-maven-plugin.version>6.0.0.Final</wildfly-jar-maven-plugin.version>
-    <jkube.version>1.4.0</jkube.version>
+    <jkube.version>1.5.1</jkube.version>
     <jib.version>3.1.4</jib.version>
     <flyway.version>8.0.2</flyway.version>
     <postgres.version>42.3.0</postgres.version>
@@ -371,4 +371,53 @@
   <reporting>
     <plugins></plugins>
   </reporting>
+
+  <profiles>
+    <profile>
+      <id>kubernetes</id>
+      <properties>
+        <!--
+        <jkube.generator.from>registry.redhat.io/ubi8/openjdk-11:latest</jkube.generator.from>
+        -->
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.jkube</groupId>
+            <artifactId>kubernetes-maven-plugin</artifactId>
+            <version>${jkube.version}</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>resource</goal>
+                  <goal>build</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <enricher>
+                <config>
+                  <jkube-service>
+                    <type>NodePort</type>
+                  </jkube-service>
+                </config>
+              </enricher>
+
+              <!--
+              <images>
+                <image>
+                  <name>${image.user}/${image.name}:%l</name>
+                  <alias>${project.artifactId}</alias>
+                  <build>
+                    <from>quay.io/jkube/jkube-java-binary-s2i:0.0.10</from>
+                  </build>
+                </image>
+              </images>
+            -->
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

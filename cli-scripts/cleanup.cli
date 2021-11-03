@@ -1,0 +1,15 @@
+
+
+/subsystem=jgroups/stack=udp:remove
+/socket-binding-group=standard-sockets/socket-binding=jgroups-mping:remove
+/socket-binding-group=standard-sockets/socket-binding=jgroups-udp:remove
+
+
+/subsystem=jgroups/channel=ee:write-attribute(name=cluster,value=test)
+
+/subsystem=logging/socket-handler=log-server-handler:write-attribute(name=block-on-reconnect,value=true)
+/subsystem=logging/socket-handler=log-server-handler:write-attribute(name=protocol,value=SSL_TCP)
+/subsystem=logging/socket-handler=log-server-handler:write-attribute(name=ssl-context,value=clientSSLContext)
+
+/subsystem=elytron-oidc-client/provider=test-provider:add(auth-server-url=http://localhost:8080/auth/realm/oidc,client-key-password=password,client-keystore=keystore.jks,client-keystore-password=password,enable-cors=true,ssl-required=all,token-store=tokenstore.ts,truststore=truststore.jks,truststore-password=password)
+

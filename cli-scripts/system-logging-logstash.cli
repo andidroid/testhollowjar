@@ -1,0 +1,15 @@
+# Logstash Formatter
+# Add the socket binding
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=log-server:add(host=${logstash.host,env.LOGSTASH_HOST:localhost}, port=${logstash.port,env.LOGSTASH_PORT:5000})
+# Add a json-formatter
+/subsystem=logging/json-formatter=logstash:add(exception-output-type=formatted, key-overrides=[timestamp="@timestamp"],meta-data=[@version=1])
+
+# Add the socket handler
+# TODO: TLS: protocol=SSL_TCP,ssl-context=clientSSLContext
+/subsystem=logging/socket-handler=log-server-handler:add(named-formatter=logstash, level=INFO, outbound-socket-binding-ref=log-server, block-on-reconnect=true)
+# Add the handler to the root logger
+# /subsystem=logging/root-logger=ROOT:add-handler(name=log-server-handler)
+# use async handler
+/subsystem=logging/async-handler=log-server-handler-async:add(queue-length=512, subhandlers=[log-server-handler])
+# Add the async handler to the root logger
+/subsystem=logging/root-logger=ROOT:add-handler(name=log-server-handler-async)

@@ -81,6 +81,7 @@
     <jib.version>3.1.4</jib.version>
     <flyway.version>8.0.3</flyway.version>
     <postgres.version>42.3.1</postgres.version>
+    <artemis.version>2.19.0</artemis.version>
   </properties>
 
   <!-- External non standard repositories -->
@@ -262,12 +263,15 @@
             <layer>logging</layer>
             <layer>observability</layer>
             <layer>cloud-profile</layer>
+
+            <layer>jpa-distributed</layer>
+            <!-- -->
             <layer>web-clustering</layer>
             <layer>elytron-oidc-client</layer>
-            <!--
+            <!-- -->
             <layer>remote-activemq</layer>
-            -->
-            <!---->
+
+            <!-- -->
             <layer>postgresql-datasource</layer>
             <layer>mail</layer>
             <layer>web-console</layer>
@@ -278,6 +282,7 @@
             <layer>messaging-activemq</layer>
             -->
             <layer>jms-activemq</layer>
+            <layer>jpa</layer>
           </excluded-layers>
           <cli-sessions>
             <cli-session>
@@ -300,6 +305,10 @@
                 <!-- -->
                 <script>cli-scripts/security-sso.cli</script>
 
+                <script>cli-scripts/infinispan-remote-cache.cli</script>
+                <script>cli-scripts/system-remote-messaging.cli</script>
+
+
                 <script>cli-scripts/cleanup.cli</script>
               </script-files>
             </cli-session>
@@ -317,6 +326,7 @@
           </cloud>
           <hollow-jar>true</hollow-jar>
           <output-file-name>testhollowjar.jar</output-file-name>
+          <overridden-server-artifacts></overridden-server-artifacts>
         </configuration>
         <executions>
           <execution>

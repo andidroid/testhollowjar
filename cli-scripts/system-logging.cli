@@ -10,3 +10,17 @@
 # access logging to console
 # java.lang.NoClassDefFoundError: org/wildfly/event/logger/EventFormatter
 # /subsystem=undertow/server=default-server/host=default-host/setting=console-access-log:add
+
+# set some loggers
+/subsystem=logging/logger=org.wildfly.security:add(level=INFO)
+/subsystem=logging/logger=org.infinispan:add(level=INFO)
+/subsystem=logging/logger=org.jgroups:add(level=INFO)
+/subsystem=logging/logger=org.apache.activemq:add(level=INFO)
+
+# TODO: logging profile
+# /subsystem=logging/logging-profile=test:add
+# /subsystem=logging/logging-profile=test/root-logger=ROOT:add(handlers=["root"],level=INFO)
+# /subsystem=logging/logging-profile=test/pattern-formatter=color:add
+# /subsystem=logging/logging-profile=test/pattern-formatter=color:write-attribute(name=color-map,value=info:cyan,warn:brightyellow,error:brightred,debug:magenta)
+# /subsystem=logging/logging-profile=test/console-handler=console:add(level=FINE,target=console)
+# /subsystem=logging/logging-profile=test/logger=test:add(level=ALL,handlers=["console"],use-parent-handlers=true)

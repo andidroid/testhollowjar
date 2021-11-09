@@ -1,0 +1,51 @@
+# https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.4/html/configuring_messaging/index
+
+/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=pre-acknowledge,value=true)
+
+#For Deployment on Kubernertes with load balancer: When using WildFly, the connection factory or pooled connection factory must be configured with the attribute use-topology-for-load-balancing set to false. This is how to set this from the CLI (replace remote-artemis with your actual name):
+/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=use-topology-for-load-balancing, value=false)
+# initial-connect-attempts>0  - to not block on server startup, -1 retries endless
+/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=initial-connect-attempts, value=2)
+# ha="true" confirmation-window-size="1024"
+/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=confirmation-window-size, value=1024)
+/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=user, value="${artemis.username,env.ARTEMIS_USERNAME:artemis}")
+/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=password, value="${artemis.password,env.ARTEMIS_PASSWORD:artemis}")
+/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=pre-acknowledge, value=true)
+/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=ha, value=true)
+/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=pre-acknowledge, value=true)
+/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=entries, value=[java:/JmsXA,java:jboss/JmsXA,java:/RemoteJmsXA,java:jboss/RemoteJmsXA,java:jboss/DefaultJMSConnectionFactory])
+
+# TODO 
+# /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=credential-reference , value= ... )
+
+# 2 way tls security, TODO TLSv1.3 TLS_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256s
+/subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true"})
+/subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true","enabled-cipher-suites" => "TLS_AES_256_GCM_SHA384","enabled-protocols" => "TLSv1.2","key-store-password" => "password","key-store-path" => "client.keystore","key-store-provider" => "JKS","trust-store-password" => "password","trust-store-path" => "client.truststore","trust-store-provider" => "JKS"})
+
+# TODO: discovery group
+/subsystem=messaging-activemq/jgroups-discovery-group=artemis-dg:add(jgroups-cluster="artemis", jgroups-channel=ee, jgroups-stack=tcp)
+# /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=discovery-group, value=artemis-dg)
+
+# TODO
+# /subsystem=messaging-activemq/server=default:write-attribute(name=cluster-password, value=password)
+
+
+# /subsystem=naming/binding=java\:global\/c:add(binding-type=lookup, lookup=java\:global\/b)
+/subsystem=naming/binding="java:/TestQueue":add(binding-type=lookup, lookup="java:jboss/exported/jms/queue/TestQueue")
+/subsystem=naming/binding="java:jboss/exported/jms/queue/":add(binding-type=external-context, module="org.apache.activemq.artemis", class="javax.naming.InitialContext", environment=[java.naming.factory.initial="org.apache.activemq.artemis.jndi.ActiveMQInitialContextFactory", java.naming.provider.url="tcp://${jboss.messaging.connector.host:localhost}:${jboss.messaging.connector.port:61616}", connectionFactory.ConnectionFactory="tcp://${jboss.messaging.connector.host:localhost}:${jboss.messaging.connector.port:61616}", user="${jboss.messaging.connector.user:artemis}", password="${jboss.messaging.connector.password:artemis}", queue.TestQueue="TestQueue"])
+
+
+/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=failover-on-initial-connection,value=true)
+/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=rebalance-connections,value=true)
+/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=reconnect-attempts,value=3)
+/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=setup-attempts,value=3)
+/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=setup-interval,value=2000)
+/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=statistics-enabled,value=true)
+
+
+
+# TODO
+# /subsystem=messaging-activemq/server=default/connection-factory=RemoteConnectionFactory:write-attribute(name=group-id,value="Group-0")
+
+# /subsystem=messaging-activemq/external-jms-queue=TestQueue:add(entries=["java:jboss/exported/jms/queue/TestQueue"])
+# /subsystem=messaging-activemq/external-jms-topic=TestTopic:add(entries=["java:jboss/exported/jms/queue/TestTopic"])

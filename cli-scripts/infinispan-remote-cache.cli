@@ -1,0 +1,20 @@
+
+# hot rod socket binding
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=infinispan-hot-rod:add(host=localhost,port=11222)
+
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=infinispan-hot-rod:write-attribute(name=host,value=${infinispan.host,env.INFINISPAN_HOST:localhost})
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=infinispan-hot-rod:write-attribute(name=port,value=${infinispan.port,env.INFINISPANL_PORT:11222})
+batch
+# need to run following in batch mode: remote-cache-container:add and remote-cache-container:remote-cluster:add
+/subsystem=infinispan/remote-cache-container=testcache:add(default-remote-cluster=infinispan-cluster)
+/subsystem=infinispan/remote-cache-container=testcache/remote-cluster=infinispan-cluster:add(socket-bindings=[infinispan-hot-rod])
+run-batch
+# ssl, two way tsl
+/subsystem=elytron/client-ssl-context=infinispanClientSSLContext:add(key-manager=clientKeyManager,trust-manager=clientTrustManager)
+/subsystem=elytron/client-ssl-context=infinispanClientSSLContext:write-attribute(name=protocols,value=[TLSv1.2,TLSv1.3])
+/subsystem=elytron/client-ssl-context=infinispanClientSSLContext:write-attribute(name=cipher-suite-names,value=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256)
+
+# 
+/subsystem=infinispan/remote-cache-container=testcache/component=security:write-attribute(name=ssl-context,value=infinispanClientSSLContext)
+# 
+/subsystem=infinispan/remote-cache-container=testcache:write-attribute(name=statistics-enabled,value=true)

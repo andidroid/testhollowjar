@@ -37,7 +37,7 @@ jobs:
           name: testhollowjar-artifact
           path: target/testhollowjar.jar
       - name: Publish package
-        run: mvn -B deploy:deploy-file -Dfile=target/testhollowjar.jar -DpomFile=pom.xml -Durl=https://maven.pkg.github.com/andidroid/testhollowjar
+        run: mvn -B deploy:deploy-file -Dfile=target/testhollowjar.jar -DpomFile=pom.xml -Durl=https://maven.pkg.github.com/andidroid/testhollowjar -s settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           username: ${{ github.actor }}

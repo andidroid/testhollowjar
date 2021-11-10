@@ -6,7 +6,9 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
+      packages: write
     steps:
       - name: Git Checkout
         uses: actions/checkout@v2
@@ -35,7 +37,7 @@ jobs:
           name: testhollowjar-artifact
           path: target/testhollowjar.jar
       - name: Publish package
-        run: mvn deploy:deploy-file -Dfile=target/testhollowjar.jar -Durl=https://maven.pkg.github.com/andidroid -DpomFile=pom.xml -s settings.xml
+        run: mvn deploy:deploy-file -Dfile=target/testhollowjar.jar -Durl=https://maven.pkg.github.com/andidroid/testhollowjar -DpomFile=pom.xml -s settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up JDK 11 for deploy to GitHub Container Registry

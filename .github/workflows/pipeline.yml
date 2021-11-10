@@ -28,7 +28,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build and Test
-        run: mvn -B -U clean package deploy
+        run: mvn -B -U clean package
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: upload artifact
@@ -37,7 +37,7 @@ jobs:
           name: testhollowjar-artifact
           path: target/testhollowjar.jar
       - name: Publish package
-        run: mvn deploy:deploy-file -Dfile=target/testhollowjar.jar -Durl=https://maven.pkg.github.com/andidroid/testhollowjar -DpomFile=pom.xml
+        run: mvn deploy:deploy-file -Dfile=target/testhollowjar.jar -DpomFile=pom.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up JDK 11 for deploy to GitHub Container Registry

@@ -37,9 +37,9 @@ jobs:
           name: testhollowjar-artifact
           path: target/testhollowjar.jar
       - name: Publish package
-        run: mvn -B deploy:deploy-file -Dfile=target/testhollowjar.jar -DpomFile=pom.xml -Durl=https://maven.pkg.github.com/andidroid/testhollowjar -s settings.xml
+        run: mvn -B deploy:deploy-file -Dfile=target/testhollowjar.jar -DpomFile=pom.xml -Durl=https://maven.pkg.github.com/andidroid/testhollowjar -s $GITHUB_WORKSPACE/settings.xml
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up JDK 11 for deploy to GitHub Container Registry

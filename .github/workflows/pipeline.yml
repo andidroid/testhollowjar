@@ -26,7 +26,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build and Test
-        run: mvn -B -U clean package -s settings.xml -Dimage=ghcr.io/andidroid/testhollowjar
+        run: mvn -B -U clean package -s settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: upload artifact
@@ -34,6 +34,10 @@ jobs:
         with:
           name: testhollowjar-artifact
           path: target/testhollowjar.jar
+      - name: Publish package
+        run: mvn deploy:deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up JDK 11 for deploy to GitHub Container Registry
         uses: actions/setup-java@v2
         with:
@@ -50,7 +54,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish to GitHub Container Registry
-        run: mvn com.google.cloud.tools:jib-maven-plugin:3.1.4:build -Dimage=ghcr.io/andidroid/testhollowjar
+        run: mvn jib:build -Dimage=ghcr.io/andidroid/testhollowjar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Scan image
@@ -67,3 +71,17 @@ jobs:
           path: ${{ steps.scan.outputs.sarif }}
       - name: Inspect action SARIF report
         run: cat ${{ steps.scan.outputs.sarif }}
+
+  lint:
+    name: Linter
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v2
+      - name: Super-Linter
+        uses: github/super-linter@v4.8.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_ALL_CODEBASE: false

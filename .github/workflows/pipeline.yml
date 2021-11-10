@@ -17,8 +17,8 @@ jobs:
         with:
           java-version: "11"
           distribution: "adopt"
-#          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-#          settings-path: ${{ github.workspace }} # location for the settings.xml file
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
       - name: Cache Maven packages
         uses: actions/cache@v2
         env:
@@ -40,6 +40,8 @@ jobs:
         run: mvn -B deploy:deploy-file -Dfile=target/testhollowjar.jar -DpomFile=pom.xml -Durl=https://maven.pkg.github.com/andidroid/testhollowjar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up JDK 11 for deploy to GitHub Container Registry
         uses: actions/setup-java@v2
         with:

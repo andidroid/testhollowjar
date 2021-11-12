@@ -275,8 +275,10 @@
             <!-- -->
             <layer>web-clustering</layer>
             <layer>elytron-oidc-client</layer>
-            <!-- -->
+            <!-- deactivate artemis messaging
             <layer>remote-activemq</layer>
+            -->
+            <layer>microprofile-reactive-messaging-kafka</layer>
 
             <!-- -->
             <layer>postgresql-datasource</layer>
@@ -313,8 +315,9 @@
                 <script>cli-scripts/security-sso.cli</script>
 
                 <script>cli-scripts/infinispan-remote-cache.cli</script>
+                <!-- deactivate artemis messaging
                 <script>cli-scripts/system-remote-messaging.cli</script>
-
+                -->
 
                 <script>cli-scripts/cleanup.cli</script>
               </script-files>

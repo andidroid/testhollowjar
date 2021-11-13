@@ -282,7 +282,9 @@
 
             <!-- -->
             <layer>postgresql-datasource</layer>
+            <!-- 
             <layer>mail</layer>
+            -->
             <layer>web-console</layer>
           </layers>
           <excluded-layers>
@@ -301,7 +303,9 @@
                 <script>cli-scripts/system-logging.cli</script>
                 <!-- -->
                 <script>cli-scripts/system-tracing.cli</script>
+                <!-- 
                 <script>cli-scripts/system-mail.cli</script>
+                -->
               </script-files>
             </cli-session>
             <cli-session>

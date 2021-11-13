@@ -106,6 +106,6 @@ jobs:
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
       - name: Publish package
-        run: mvn deploy:deploy-file -Dfile=testhollowjar.jar -Durl=https://maven.pkg.github.com/andidroid/testhollowjar -DpomFile=pom.xml -s $GITHUB_WORKSPACE/settings.xml
+        run: mvn deploy:deploy-file -Dfile=testhollowjar.jar -Durl=https://maven.pkg.github.com/andidroid/testhollowjar -DpomFile=pom.xml -s settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

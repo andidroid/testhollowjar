@@ -6,3 +6,6 @@
 
 
 /subsystem=jgroups/channel=ee:write-attribute(name=cluster,value=test)
+
+# remove jgroups password for development
+#/subsystem=jgroups/stack=tcp/protocol=AUTH/token=digest:remove

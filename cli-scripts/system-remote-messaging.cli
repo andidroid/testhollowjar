@@ -1,3 +1,5 @@
+batch
+
 # https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.4/html/configuring_messaging/index
 
 /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=pre-acknowledge,value=true)
@@ -49,3 +51,5 @@
 
 # /subsystem=messaging-activemq/external-jms-queue=TestQueue:add(entries=["java:jboss/exported/jms/queue/TestQueue"])
 # /subsystem=messaging-activemq/external-jms-topic=TestTopic:add(entries=["java:jboss/exported/jms/queue/TestTopic"])
+
+run-batch

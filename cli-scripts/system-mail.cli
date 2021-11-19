@@ -1,3 +1,6 @@
+
+batch
+
 /subsystem=mail/mail-session=default/server=smtp/:write-attribute(name=username,value=${mail.username,env.MAIL_USERNAME:test@andidroid.io})
 /subsystem=mail/mail-session=default/server=smtp/:write-attribute(name=password,value=${mail.password,env.MAIL_PASSWORD:test})
 /subsystem=mail/mail-session=default/server=smtp/:write-attribute(name=tls,value=true)
@@ -5,3 +8,5 @@
 
 /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=mail-smtp/:write-attribute(name=host,value=${mail.host,env.MAIL_HOST:localhost})
 /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=mail-smtp/:write-attribute(name=port,value=${mail.port,env.MAIL_PORT:587})
+
+run-batch

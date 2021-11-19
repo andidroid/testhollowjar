@@ -1,3 +1,5 @@
+batch
+
 # create realm
 /subsystem=elytron/filesystem-realm=applicationFsRealm:add(path=filesystemrealm,relative-to=jboss.server.config.dir)
 
@@ -53,4 +55,4 @@
 # SSO
 /subsystem=undertow/application-security-domain=applicationFsSecurityDomain/setting=single-sign-on:add(key-store=serverKeyStore, key-alias=localhost, domain=localhost, credential-reference={clear-text=password}, client-ssl-context=clientSSLContext, http-only=true, secure=true)
 
-
+run-batch

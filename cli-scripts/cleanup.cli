@@ -1,4 +1,4 @@
-
+batch
 
 /subsystem=jgroups/stack=udp:remove
 /socket-binding-group=standard-sockets/socket-binding=jgroups-mping:remove
@@ -9,3 +9,5 @@
 
 # remove jgroups password for development
 #/subsystem=jgroups/stack=tcp/protocol=AUTH/token=digest:remove
+
+run-batch

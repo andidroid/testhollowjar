@@ -33,9 +33,3 @@
 /subsystem=elytron/server-ssl-context=applicationSSC:remove()
 /subsystem=elytron/key-manager=applicationKM:remove()
 /subsystem=elytron/key-store=applicationKS:remove()
-
-# Configuring Strict Transport Security (HSTS)
-# http://www.mastertheboss.com/web/jboss-web-server/configuring-strict-transport-security-hsts-on-wildfly/
-
-/subsystem=undertow/configuration=filter/response-header=hsts-header:add(header-name="Strict-Transport-Security",header-value="max-age=31536000;")
-/subsystem=undertow/server=default-server/host=default-host/filter-ref=hsts-header:add

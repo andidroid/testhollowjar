@@ -300,6 +300,7 @@
                 <script>cli-scripts/security-datasource.cli</script>
                 <script>cli-scripts/security-tls.cli</script>
                 <script>cli-scripts/security-management.cli</script>
+                <script>cli-scripts/undertow-filter.cli</script>
               </script-files>
             </cli-session>
           </cli-sessions>

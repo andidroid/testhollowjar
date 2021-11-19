@@ -122,9 +122,9 @@
       </dependency>
 
       <dependency>
-        <groupId>org.wildfly</groupId>
-        <artifactId>wildfly-datasources-galleon-pack</artifactId>
-        <version>${wildfly-datasources-galleon-pack.version}</version>
+        <groupId>me.andidroid</groupId>
+        <artifactId>test-feature-pack</artifactId>
+        <version>0.25.1</version>
         <type>pom</type>
       </dependency>
 
@@ -260,9 +260,9 @@
               <!-- <location>wildfly@maven(org.jboss.universe:community-universe)#${wildfly.version}</location> -->
             </feature-pack>
             <feature-pack>
-              <groupId>org.wildfly</groupId>
-              <artifactId>wildfly-datasources-galleon-pack</artifactId>
-              <version>${wildfly-datasources-galleon-pack.version}</version>
+              <groupId>me.andidroid</groupId>
+              <artifactId>test-feature-pack</artifactId>
+              <version>0.25.1</version>
             </feature-pack>
           </feature-packs>
           <layers>
@@ -270,42 +270,27 @@
             <layer>logging</layer>
             <layer>observability</layer>
             <layer>cloud-profile</layer>
+            <layer>jpa</layer>
 
-            <layer>jpa-distributed</layer>
-            <!-- -->
-            <layer>web-clustering</layer>
-            <layer>elytron-oidc-client</layer>
-            <!-- deactivate artemis messaging
-            <layer>remote-activemq</layer>
-            -->
             <layer>microprofile-reactive-messaging-kafka</layer>
 
             <!-- -->
-            <layer>postgresql-datasource</layer>
-            <!-- 
-            <layer>mail</layer>
-            -->
+            <layer>postgresql-tracing-datasource</layer>
+            <layer>kafka-streams</layer>
+            <layer>kafka-tracing</layer>
+            <layer>spatial</layer>
+            <layer>jms-tracing</layer>
+
             <layer>web-console</layer>
           </layers>
           <excluded-layers>
             <layer>deployment-scanner</layer>
-            <!--
-            <layer>messaging-activemq</layer>
-            -->
-            <layer>jms-activemq</layer>
-            <layer>jpa</layer>
           </excluded-layers>
           <cli-sessions>
             <cli-session>
               <resolve-expressions>false</resolve-expressions>
               <script-files>
-
                 <script>cli-scripts/system-logging.cli</script>
-                <!-- -->
-                <script>cli-scripts/system-tracing.cli</script>
-                <!-- 
-                <script>cli-scripts/system-mail.cli</script>
-                -->
               </script-files>
             </cli-session>
             <cli-session>
@@ -315,15 +300,6 @@
                 <script>cli-scripts/security-datasource.cli</script>
                 <script>cli-scripts/security-tls.cli</script>
                 <script>cli-scripts/security-management.cli</script>
-                <!-- -->
-                <script>cli-scripts/security-sso.cli</script>
-
-                <script>cli-scripts/infinispan-remote-cache.cli</script>
-                <!-- deactivate artemis messaging
-                <script>cli-scripts/system-remote-messaging.cli</script>
-                -->
-
-                <script>cli-scripts/cleanup.cli</script>
               </script-files>
             </cli-session>
           </cli-sessions>
@@ -336,7 +312,6 @@
           </plugin-options>
           <cloud>
             <type>kubernetes</type>
-            <enable-jgroups-password>true</enable-jgroups-password>
           </cloud>
           <hollow-jar>true</hollow-jar>
           <output-file-name>testhollowjar.jar</output-file-name>

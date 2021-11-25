@@ -273,8 +273,12 @@
 
             <layer>microprofile-reactive-messaging-kafka</layer>
 
-            <!-- -->
+            <!-- 
             <layer>postgresql-tracing-datasource</layer>
+            -->
+            <layer>postgresql-datasource</layer>
+            <layer>postgresql-tracing-driver</layer>
+
             <layer>kafka-streams</layer>
             <layer>kafka-tracing</layer>
             <layer>spatial</layer>

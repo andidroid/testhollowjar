@@ -36,6 +36,10 @@ jobs:
         with:
           name: testhollowjar-artifact
           path: target/testhollowjar.jar
+      - name: Publish package
+        run: mvn deploy -Dwildfly.bootable.package.skip=true -DskipTests=true -s settings.xml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   lint:
     name: Linter

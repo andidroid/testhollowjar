@@ -28,7 +28,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build and Test
-        run: mvn -B -U clean package deploy -s settings.xml
+        run: mvn -B -U clean package -s settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: upload artifact
@@ -52,7 +52,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           
   deploy:
-    if: ${{ false }}
+    # if: ${{ false }}
     name: Deploy
     needs: build
     runs-on: ubuntu-latest
@@ -82,7 +82,8 @@ jobs:
           key: ${{ runner.os }}-m2-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Publish package
-        run: mvn deploy -Dwildfly.bootable.package.skip=true -DskipTests=true -s settings.xml
+        run: mvn deploy -DskipTests=true -s settings.xml
+        #  -Dwildfly.bootable.package.skip=true
         # run: mvn deploy:deploy-file -Dfile=testhollowjar.jar -Durl=https://maven.pkg.github.com/andidroid/testhollowjar -DpomFile=pom.xml -s settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

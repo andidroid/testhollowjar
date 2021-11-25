@@ -72,6 +72,14 @@ jobs:
           distribution: "adopt"
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-maven-modules
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
       - name: Publish package
         run: mvn deploy -Dwildfly.bootable.package.skip=true -DskipTests=true -s settings.xml
         # run: mvn deploy:deploy-file -Dfile=testhollowjar.jar -Durl=https://maven.pkg.github.com/andidroid/testhollowjar -DpomFile=pom.xml -s settings.xml
@@ -107,6 +115,14 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-maven-modules
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
       - name: Publish to GitHub Container Registry
         run: mvn jib:build -Dimage=ghcr.io/andidroid/testhollowjar
         env:

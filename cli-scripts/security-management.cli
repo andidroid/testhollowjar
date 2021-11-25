@@ -1,3 +1,5 @@
+batch
+
 # Create a user store
 /subsystem=elytron/filesystem-realm=managementFsRealm:add(path=management-fs-realm-users,relative-to=jboss.server.config.dir)
 
@@ -21,3 +23,5 @@
 /core-service=management/management-interface=http-interface:write-attribute(name=secure-socket-binding,value=management-https)
 
 # /core-service=management/management-interface=http-interface:add(console-enabled=true, secure-socket-binding=management-https, ssl-context=halSSLContext, http-authentication-factory=management-http-authenticationFs)
+
+run-batch

@@ -1,3 +1,5 @@
+batch
+
 # remove file handler
 /subsystem=logging/root-logger=ROOT:remove-handler(name=FILE)
 
@@ -24,3 +26,5 @@
 # /subsystem=logging/logging-profile=test/pattern-formatter=color:write-attribute(name=color-map,value=info:cyan,warn:brightyellow,error:brightred,debug:magenta)
 # /subsystem=logging/logging-profile=test/console-handler=console:add(level=FINE,target=console)
 # /subsystem=logging/logging-profile=test/logger=test:add(level=ALL,handlers=["console"],use-parent-handlers=true)
+
+run-batch

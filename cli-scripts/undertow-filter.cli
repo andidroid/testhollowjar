@@ -1,0 +1,45 @@
+batch
+
+# http://www.mastertheboss.com/jboss-web/jbosswebserver/how-to-configure-cors-on-wildfly
+# add filter for Access-Control-Allow header
+/subsystem=undertow/server=default-server/host=default-host/filter-ref="Access-Control-Allow-Origin":add()
+/subsystem=undertow/server=default-server/host=default-host/filter-ref="Access-Control-Allow-Methods":add()
+/subsystem=undertow/server=default-server/host=default-host/filter-ref="Access-Control-Allow-Headers":add()
+/subsystem=undertow/server=default-server/host=default-host/filter-ref="Access-Control-Allow-Credentials":add()
+/subsystem=undertow/server=default-server/host=default-host/filter-ref="Access-Control-Max-Age":add()
+
+# add Access-Control-Allow header to response for all http methods
+/subsystem=undertow/configuration=filter/response-header="Access-Control-Allow-Origin":add(header-name="Access-Control-Allow-Origin",header-value="*")
+# GET, POST, OPTIONS, PUT
+/subsystem=undertow/configuration=filter/response-header="Access-Control-Allow-Methods":add(header-name="Access-Control-Allow-Methods",header-value="*")
+/subsystem=undertow/configuration=filter/response-header="Access-Control-Allow-Headers":add(header-name="Access-Control-Allow-Headers",header-value="accept, authorization, content-type, x-requested-with")
+/subsystem=undertow/configuration=filter/response-header="Access-Control-Allow-Credentials":add(header-name="Access-Control-Allow-Credentials",header-value="true")
+/subsystem=undertow/configuration=filter/response-header="Access-Control-Max-Age":add(header-name="Access-Control-Max-Age",header-value="1")
+
+
+# Configuring Strict Transport Security (HSTS)
+# http://www.mastertheboss.com/web/jboss-web-server/configuring-strict-transport-security-hsts-on-wildfly/
+
+/subsystem=undertow/configuration=filter/response-header=hsts-header:add(header-name="Strict-Transport-Security",header-value="max-age=31536000;")
+/subsystem=undertow/server=default-server/host=default-host/filter-ref=hsts-header:add
+
+# TODO
+# How to redirect HTTP to HTTPS in WildFly
+# http://www.mastertheboss.com/web/jboss-web-server/how-to-redirect-http-to-https-in-wildfly/
+# /subsystem=undertow/configuration=filter/rewrite=http-to-https:add(redirect="true",target="https://localhost:8443%U")
+# /subsystem=undertow/server=default-server/host=default-host/filter-ref=http-to-https:add(predicate="equals(%p,8080)")
+
+# Maximum number of Web connections in WildFly (http request thread pool)
+# http://www.mastertheboss.com/web/jboss-web-server/how-to-set-the-maximum-number-of-web-connections-in-wildfly/
+/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=max-connections,value=10)
+/subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=max-connections,value=10)
+# /subsystem=undertow/server=default-server/ajp-listener=ajp:write-attribute(name=max-connections,value=10)
+/subsystem=logging/logger=org.xnio.nio.tcp.server:add(level=INFO)
+
+# file handler
+# /subsystem=undertow/configuration=handler/file=default-handler:add(path=${jboss.home.dir}/welcome-content)
+# /subsystem=undertow/server=default-server/host=default-host/location=/test:add(handler=default-handler)
+
+# /subsystem=undertow/configuration=handler/file=test:add(path=/)
+# /subsystem=undertow/server=default-server/host=default-host/location=test:add(handler=test)
+run-batch

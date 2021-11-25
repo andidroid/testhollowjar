@@ -320,9 +320,11 @@
         </configuration>
         <executions>
           <execution>
-            <goals>
-              <goal>package</goal>
-            </goals>
+              <id>default-jar</id>
+              <phase>package</phase>
+              <goals>
+                  <goal>jar</goal>
+              </goals>
           </execution>
         </executions>
 

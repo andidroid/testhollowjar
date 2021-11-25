@@ -28,7 +28,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build and Test
-        run: mvn -B -U clean package -s settings.xml
+        run: mvn -B -U clean package deploy -s settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: upload artifact
@@ -36,10 +36,6 @@ jobs:
         with:
           name: testhollowjar-artifact
           path: target/testhollowjar.jar
-      - name: Publish package
-        run: mvn deploy -Dwildfly.bootable.package.skip=true -DskipTests=true -s settings.xml
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   lint:
     name: Linter
@@ -56,6 +52,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           
   deploy:
+    if: ${{ false }}
     name: Deploy
     needs: build
     runs-on: ubuntu-latest

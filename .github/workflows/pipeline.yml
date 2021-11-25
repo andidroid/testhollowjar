@@ -82,7 +82,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Publish package
-        run: mvn deploy -DskipTests=true -s settings.xml
+        run: mvn deploy -Dwildfly.bootable.package.skip=true -DskipTests=true -s settings.xml
         #  -Dwildfly.bootable.package.skip=true
         # run: mvn deploy:deploy-file -Dfile=testhollowjar.jar -Durl=https://maven.pkg.github.com/andidroid/testhollowjar -DpomFile=pom.xml -s settings.xml
         env:

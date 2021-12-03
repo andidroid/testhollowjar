@@ -359,6 +359,8 @@
               <port>9990</port>
             </ports>
             <mainClass>org.wildfly.core.jar.boot.Main</mainClass>
+            <!-- USE_CURRENT_TIMESTAMP -->
+            <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
           </container>
         </configuration>
         <!--

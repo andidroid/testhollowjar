@@ -70,7 +70,7 @@
 
 
     <wildfly.version>26.0.0.Beta1</wildfly.version>
-
+    <test-feature-pack.version>0.26.0-b1</test-feature-pack.version>
     <wildfly-datasources-galleon-pack.version>2.0.5.Final</wildfly-datasources-galleon-pack.version>
 
     <wildfly-maven-plugin.version>2.1.0.Final</wildfly-maven-plugin.version>
@@ -261,7 +261,7 @@
             <feature-pack>
               <groupId>me.andidroid</groupId>
               <artifactId>test-feature-pack</artifactId>
-              <version>0.25.1</version>
+              <version>${test-feature-pack.version}</version>
             </feature-pack>
           </feature-packs>
           <layers>

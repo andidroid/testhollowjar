@@ -12,7 +12,6 @@ batch
 /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=confirmation-window-size, value=1024)
 /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=user, value="${artemis.username,env.ARTEMIS_USERNAME:artemis}")
 /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=password, value="${artemis.password,env.ARTEMIS_PASSWORD:artemis}")
-/subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=pre-acknowledge, value=true)
 /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=ha, value=true)
 /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=pre-acknowledge, value=true)
 /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=entries, value=[java:/JmsXA,java:jboss/JmsXA,java:/RemoteJmsXA,java:jboss/RemoteJmsXA,java:jboss/DefaultJMSConnectionFactory])
@@ -21,11 +20,11 @@ batch
 # /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=credential-reference , value= ... )
 
 # 2 way tls security, TODO TLSv1.3 TLS_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256s
-/subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true"})
-/subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true","enabled-cipher-suites" => "TLS_AES_256_GCM_SHA384","enabled-protocols" => "TLSv1.2","key-store-password" => "password","key-store-path" => "client.keystore","key-store-provider" => "JKS","trust-store-password" => "password","trust-store-path" => "client.truststore","trust-store-provider" => "JKS"})
+# /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true"})
+# /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true","enabled-cipher-suites" => "TLS_AES_256_GCM_SHA384","enabled-protocols" => "TLSv1.2","key-store-password" => "password","key-store-path" => "client.keystore","key-store-provider" => "JKS","trust-store-password" => "password","trust-store-path" => "client.truststore","trust-store-provider" => "JKS"})
 
 # TODO: discovery group
-/subsystem=messaging-activemq/jgroups-discovery-group=artemis-dg:add(jgroups-cluster="artemis", jgroups-channel=ee, jgroups-stack=tcp)
+# /subsystem=messaging-activemq/jgroups-discovery-group=artemis-dg:add(jgroups-cluster="artemis", jgroups-channel=ee, jgroups-stack=tcp)
 # /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=discovery-group, value=artemis-dg)
 
 # TODO
@@ -33,8 +32,10 @@ batch
 
 
 # /subsystem=naming/binding=java\:global\/c:add(binding-type=lookup, lookup=java\:global\/b)
-/subsystem=naming/binding="java:/TestQueue":add(binding-type=lookup, lookup="java:jboss/exported/jms/queue/TestQueue")
-/subsystem=naming/binding="java:jboss/exported/jms/queue/":add(binding-type=external-context, module="org.apache.activemq.artemis", class="javax.naming.InitialContext", environment=[java.naming.factory.initial="org.apache.activemq.artemis.jndi.ActiveMQInitialContextFactory", java.naming.provider.url="tcp://${jboss.messaging.connector.host:localhost}:${jboss.messaging.connector.port:61616}", connectionFactory.ConnectionFactory="tcp://${jboss.messaging.connector.host:localhost}:${jboss.messaging.connector.port:61616}", user="${jboss.messaging.connector.user:artemis}", password="${jboss.messaging.connector.password:artemis}", queue.TestQueue="TestQueue"])
+
+# /subsystem=naming/binding="java:/TestQueue":add(binding-type=lookup, lookup="java:jboss/exported/jms/queue/TestQueue")
+# /subsystem=naming/binding="java:/TestTopic":add(binding-type=lookup, lookup="java:jboss/exported/jms/queue/TestTopic")
+# /subsystem=naming/binding="java:jboss/exported/jms/queue/":add(binding-type=external-context, module="org.apache.activemq.artemis", class="javax.naming.InitialContext", environment=[java.naming.factory.initial="org.apache.activemq.artemis.jndi.ActiveMQInitialContextFactory", java.naming.provider.url="tcp://${jboss.messaging.connector.host:localhost}:${jboss.messaging.connector.port:61616}", connectionFactory.ConnectionFactory="tcp://${jboss.messaging.connector.host:localhost}:${jboss.messaging.connector.port:61616}", user="${jboss.messaging.connector.user:artemis}", password="${jboss.messaging.connector.password:artemis}", queue.TestQueue="TestQueue"])
 
 
 /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=failover-on-initial-connection,value=true)
@@ -51,5 +52,7 @@ batch
 
 # /subsystem=messaging-activemq/external-jms-queue=TestQueue:add(entries=["java:jboss/exported/jms/queue/TestQueue"])
 # /subsystem=messaging-activemq/external-jms-topic=TestTopic:add(entries=["java:jboss/exported/jms/queue/TestTopic"])
+/subsystem=messaging-activemq/external-jms-queue=TestQueue:add(entries=["java:global/remoteContext/TestQueue"])
+/subsystem=messaging-activemq/external-jms-topic=TestTopic:add(entries=["java:global/remoteContext/TestTopic"])
 
 run-batch

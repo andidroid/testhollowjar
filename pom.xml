@@ -274,17 +274,19 @@
             <layer>observability</layer>
             <layer>cloud-profile</layer>
             <layer>jpa</layer>
-
+            <layer>remote-activemq</layer>
+            <!-- 
             <layer>microprofile-reactive-messaging-kafka</layer>
-
+            -->
             <!-- 
             <layer>postgresql-tracing-datasource</layer>
             -->
             <layer>postgresql-datasource</layer>
             <layer>postgresql-tracing-driver</layer>
-
+            <!-- 
             <layer>kafka-streams</layer>
             <layer>kafka-tracing</layer>
+            -->
             <layer>spatial</layer>
             <layer>jms-tracing</layer>
 
@@ -292,6 +294,7 @@
           </layers>
           <excluded-layers>
             <layer>deployment-scanner</layer>
+            <layer>jms-activemq</layer>
           </excluded-layers>
           <cli-sessions>
             <cli-session>
@@ -308,6 +311,7 @@
                 <script>cli-scripts/security-tls.cli</script>
                 <script>cli-scripts/security-management.cli</script>
                 <script>cli-scripts/undertow-filter.cli</script>
+                <script>cli-scripts/system-remote-messaging.cli</script>
                 <script>cli-scripts/global-modules.cli</script>
               </script-files>
             </cli-session>

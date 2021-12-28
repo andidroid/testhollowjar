@@ -55,4 +55,7 @@ batch
 /subsystem=messaging-activemq/external-jms-queue=TestQueue:add(entries=["java:global/remoteContext/TestQueue"])
 /subsystem=messaging-activemq/external-jms-topic=TestTopic:add(entries=["java:global/remoteContext/TestTopic"])
 
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=messaging-activemq:write-attribute(name=host,value=${jboss.messaging.connector.host,env.ARTEMIS_HOST:localhost})
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=messaging-activemq:write-attribute(name=port,value=${jboss.messaging.connector.port,env.ARTEMIS_PORT:61616})
+
 run-batch

@@ -269,12 +269,15 @@
             </feature-pack>
           </feature-packs>
           <layers>
+            <layer>jpa-distributed</layer>
             <layer>jaxrs</layer>
             <layer>logging</layer>
             <layer>observability</layer>
             <layer>cloud-profile</layer>
-            <layer>jpa</layer>
+
+            <!-- <layer>jpa</layer> -->
             <layer>remote-activemq</layer>
+            <layer>web-clustering</layer>
             <!-- 
             <layer>microprofile-reactive-messaging-kafka</layer>
             -->
@@ -295,6 +298,7 @@
           <excluded-layers>
             <layer>deployment-scanner</layer>
             <layer>jms-activemq</layer>
+            <layer>jpa</layer>
           </excluded-layers>
           <cli-sessions>
             <cli-session>
@@ -302,6 +306,7 @@
               <script-files>
                 <script>cli-scripts/system-logging.cli</script>
                 <script>cli-scripts/system-remote-messaging.cli</script>
+                <!-- <script>cli-scripts/system-remote-messaging.cli</script> -->
               </script-files>
             </cli-session>
             <cli-session>
@@ -310,7 +315,9 @@
                 <script>cli-scripts/security-credentialstore.cli</script>
                 <script>cli-scripts/security-datasource.cli</script>
                 <script>cli-scripts/security-tls.cli</script>
+                <script>cli-scripts/security-tls-client.cli</script>
                 <script>cli-scripts/security-management.cli</script>
+                <script>cli-scripts/infinispan-remote-cache.cli</script>
                 <script>cli-scripts/undertow-filter.cli</script>
                 <script>cli-scripts/global-modules.cli</script>
               </script-files>

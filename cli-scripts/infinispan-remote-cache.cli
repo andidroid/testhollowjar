@@ -16,8 +16,22 @@ batch
 /subsystem=elytron/client-ssl-context=infinispanClientSSLContext:write-attribute(name=cipher-suite-names,value=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256)
 
 # 
+/subsystem=infinispan/remote-cache-container=testcache/component=security:add
 /subsystem=infinispan/remote-cache-container=testcache/component=security:write-attribute(name=ssl-context,value=infinispanClientSSLContext)
 # 
 /subsystem=infinispan/remote-cache-container=testcache:write-attribute(name=statistics-enabled,value=true)
 
+/subsystem=infinispan/remote-cache-container=testcache:write-attribute(name=properties,value={infinispan.client.hotrod.auth_username="${infinispan.username,env.INFINISPAN_USERNAME:infinispan}",infinispan.client.hotrod.auth_password="${infinispan.password,env.INFINISPAN_PASSWORD:infinispan}"})
+# [infinispan.client.hotrod.auth_username,"${infinispan.username,env.INFINISPAN_USERNAME:infinispan}",infinispan.client.hotrod.auth_password,"${infinispan.password,env.INFINISPAN_PASSWORD:infinispan}"]
+
+# remote cache for distributed web session 
+# http://www.mastertheboss.com/jboss-frameworks/infinispan/how-to-externalize-http-sessions-on-infinispan/#more-7291
+# http://www.mastertheboss.com/jbossas/jboss-cluster/jboss-clustering-a-web-application/
+
 run-batch
+
+
+# TODO
+# https://docs.wildfly.org/26/wildscribe/subsystem/infinispan/remote-cache-container/index.html
+# tcp-keep-alive
+# tcp-no-delay 

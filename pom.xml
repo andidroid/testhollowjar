@@ -68,8 +68,8 @@
     <mockserver-client-java.version>5.11.2</mockserver-client-java.version>
 
 
-    <wildfly.version>26.0.0.Final</wildfly.version>
-    <test-feature-pack.version>0.26.0</test-feature-pack.version>
+    <wildfly.version>26.0.1.Final</wildfly.version>
+    <test-feature-pack.version>0.26.1</test-feature-pack.version>
     <wildfly-datasources-galleon-pack.version>2.0.6.Final</wildfly-datasources-galleon-pack.version>
 
     <wildfly-maven-plugin.version>2.1.0.Final</wildfly-maven-plugin.version>

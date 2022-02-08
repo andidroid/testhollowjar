@@ -61,9 +61,8 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
 
-
     <mockito.version>4.3.1</mockito.version>
-    <rest-assured.version>4.4.0</rest-assured.version>
+    <rest-assured.version>4.5.0</rest-assured.version>
     <microshed.version>0.9.1</microshed.version>
     <testcontainers.version>1.16.3</testcontainers.version>
     <mockserver-client-java.version>5.11.2</mockserver-client-java.version>
@@ -77,7 +76,7 @@
     <wildfly-jar-maven-plugin.version>7.0.0.Final</wildfly-jar-maven-plugin.version>
     <jkube.version>1.4.0</jkube.version>
     <jib.version>3.2.0</jib.version>
-    <flyway.version>8.4.2</flyway.version>
+    <flyway.version>8.4.4</flyway.version>
     <postgres.version>42.3.1</postgres.version>
     <artemis.version>2.19.0</artemis.version>
   </properties>

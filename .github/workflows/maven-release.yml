@@ -58,7 +58,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: v-${{ env.VERSION }}
+          tag_name: v${{ env.VERSION }}
           release_name: Release ${{ env.VERSION }}
           body: |
             Versionn ${{ env.VERSION }}
@@ -72,6 +72,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: /home/runner/work/testhollowjar/testhollowjar/target/checkout/pom.xml
+          asset_path: /home/runner/work/testhollowjar/testhollowjar/target/checkout/target/testhollowjar.jar
           asset_name: pom.xml
           asset_content_type: application/xml
+
+      # TODO: extract to separate docker job and use git checkout with release tag
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish to GitHub Container Registry
+        run: mvn jib:build -Dimage=ghcr.io/andidroid/testhollowjar -f /home/runner/work/testhollowjar/testhollowjar/target/checkout/pom.xml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

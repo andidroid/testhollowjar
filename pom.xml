@@ -378,7 +378,18 @@
         </executions>
       -->
       </plugin>
-
+      <plugin>
+        <artifactId>maven-scm-plugin</artifactId>
+        <configuration>
+          <tagNameFormat>v@{project.version}</tagNameFormat>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-scm-publish-plugin</artifactId>
+        <configuration>
+          <scmBranch>gh-pages</scmBranch>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <reporting>

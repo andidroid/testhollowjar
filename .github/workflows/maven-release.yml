@@ -73,8 +73,8 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
           asset_path: /home/runner/work/testhollowjar/testhollowjar/target/checkout/target/testhollowjar.jar
-          asset_name: pom.xml
-          asset_content_type: application/xml
+          asset_name: testhollowjar.jar
+          asset_content_type: application/java-archive
 
       # TODO: extract to separate docker job and use git checkout with release tag
       - name: Set up Docker Buildx

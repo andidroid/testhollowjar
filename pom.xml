@@ -5,7 +5,7 @@
   <parent>
     <groupId>me.andidroid</groupId>
     <artifactId>test</artifactId>
-    <version>0.0.32</version>
+    <version>0.0.33</version>
   </parent>
   <artifactId>testhollowjar</artifactId>
   <version>0.3.2-SNAPSHOT</version>
@@ -377,18 +377,6 @@
           </execution>
         </executions>
       -->
-      </plugin>
-      <plugin>
-        <artifactId>maven-scm-plugin</artifactId>
-        <configuration>
-          <tagNameFormat>v@{project.version}</tagNameFormat>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-scm-publish-plugin</artifactId>
-        <configuration>
-          <scmBranch>gh-pages</scmBranch>
-        </configuration>
       </plugin>
     </plugins>
   </build>

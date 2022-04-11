@@ -72,7 +72,7 @@
     <test-feature-pack.version>0.26.3</test-feature-pack.version>
     <wildfly-datasources-galleon-pack.version>2.0.6.Final</wildfly-datasources-galleon-pack.version>
 
-    <wildfly-maven-plugin.version>3.0.0.Beta1</wildfly-maven-plugin.version>
+    <wildfly-maven-plugin.version>3.0.0.Final</wildfly-maven-plugin.version>
     <wildfly-jar-maven-plugin.version>7.0.0.Final</wildfly-jar-maven-plugin.version>
     <jkube.version>1.4.0</jkube.version>
     <jib.version>3.2.1</jib.version>

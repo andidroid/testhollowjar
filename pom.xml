@@ -256,10 +256,13 @@
         <configuration>
           <feature-packs>
             <feature-pack>
+              <!--
               <groupId>org.wildfly</groupId>
               <artifactId>wildfly-galleon-pack</artifactId>
               <version>${wildfly.version}</version>
+              -->
               <!-- <location>wildfly@maven(org.jboss.universe:community-universe)#${wildfly.version}</location> -->
+              <location>wildfly-preview@maven(org.jboss.universe:community-universe)#${wildfly.version}</location>  
             </feature-pack>
             <feature-pack>
               <groupId>me.andidroid</groupId>

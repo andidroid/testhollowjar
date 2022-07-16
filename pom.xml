@@ -68,8 +68,8 @@
     <mockserver-client-java.version>5.13.2</mockserver-client-java.version>
 
 
-    <wildfly.version>27.0.0.Alpha2</wildfly.version>
-    <test-feature-pack.version>0.27.1</test-feature-pack.version>
+    <wildfly.version>27.0.0.Alpha3</wildfly.version>
+    <test-feature-pack.version>0.27.2</test-feature-pack.version>
     <wildfly-datasources-galleon-pack.version>2.2.2.Final</wildfly-datasources-galleon-pack.version>
 
     <wildfly-maven-plugin.version>4.0.0.Alpha2</wildfly-maven-plugin.version>
@@ -78,7 +78,7 @@
     <jib.version>3.2.1</jib.version>
     <flyway.version>8.5.13</flyway.version>
     <postgres.version>42.4.0</postgres.version>
-    <artemis.version>2.22.0</artemis.version>
+    <artemis.version>2.23.1</artemis.version>
   </properties>
 
   <!-- External non standard repositories -->

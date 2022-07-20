@@ -276,7 +276,9 @@
             <layer>jaxrs</layer>
             <layer>logging</layer>
             <layer>observability</layer>
+            <!--
             <layer>cloud-profile</layer>
+            -->
             <layer>jpa</layer>
 
             <layer>microprofile-reactive-messaging-kafka</layer>

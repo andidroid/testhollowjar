@@ -110,6 +110,16 @@
         <scope>provided</scope>
       </dependency>
 
+      <!-- https://mvnrepository.com/artifact/org.wildfly/wildfly-preview-feature-pack -->
+      <dependency>
+          <groupId>org.wildfly</groupId>
+          <artifactId>wildfly-preview-feature-pack</artifactId>
+          <version>${wildfly.version}</version>
+          <type>pom</type>
+          <scope>provided</scope>
+      </dependency>
+
+      
       <dependency>
         <groupId>io.rest-assured</groupId>
         <artifactId>rest-assured</artifactId>

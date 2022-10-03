@@ -7,10 +7,10 @@ batch
 /subsystem=ee:write-attribute(name=global-modules,value=[]
 /subsystem=ee:list-add(name=global-modules,value={name=org.hibernate.spatial,services=true})
 # /subsystem=ee:list-add(name=global-modules,value={name=io.smallrye.openapi.ui,services=true,meta-inf=true,annotations=true})
-/subsystem=ee:list-add(name=global-modules,value={name=io.opentracing.contrib.opentracing-jms-2,services=true,meta-inf=true,annotations=true})
-/subsystem=ee:list-add(name=global-modules,value={name=io.opentracing.contrib.opentracing-jms-2,services=true,meta-inf=true,annotations=true})
+# /subsystem=ee:list-add(name=global-modules,value={name=io.opentracing.contrib.opentracing-jms-2,services=true,meta-inf=true,annotations=true})
+# /subsystem=ee:list-add(name=global-modules,value={name=io.opentracing.contrib.opentracing-jms-2,services=true,meta-inf=true,annotations=true})
 
-/subsystem=ee:list-add(name=global-modules,value={name=org.apache.kafka.kafka-streams,services=true,meta-inf=true,annotations=true})
-/subsystem=ee:list-add(name=global-modules,value={name=io.opentracing.contrib.opentracing-kafka-streams,services=true,meta-inf=true,annotations=true})
-/subsystem=ee:list-add(name=global-modules,value={name=io.opentracing.contrib.opentracing-kafka-client,services=true,meta-inf=true,annotations=true})
+# /subsystem=ee:list-add(name=global-modules,value={name=org.apache.kafka.kafka-streams,services=true,meta-inf=true,annotations=true})
+# /subsystem=ee:list-add(name=global-modules,value={name=io.opentracing.contrib.opentracing-kafka-streams,services=true,meta-inf=true,annotations=true})
+# /subsystem=ee:list-add(name=global-modules,value={name=io.opentracing.contrib.opentracing-kafka-client,services=true,meta-inf=true,annotations=true})
 run-batch

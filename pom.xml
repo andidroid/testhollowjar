@@ -69,7 +69,7 @@
 
 
     <wildfly.version>27.0.0.Beta1</wildfly.version>
-    <test-feature-pack.version>0.27.3</test-feature-pack.version>
+    <test-feature-pack.version>0.27.4-SNAPSHOT</test-feature-pack.version>
     <wildfly-datasources-galleon-pack.version>3.0.0.Beta1</wildfly-datasources-galleon-pack.version>
 
     <wildfly-maven-plugin.version>4.0.0.Beta3</wildfly-maven-plugin.version>
@@ -111,14 +111,21 @@
       </dependency>
 
       <!-- https://mvnrepository.com/artifact/org.wildfly/wildfly-preview-feature-pack -->
-      <dependency>
+      <!-- <dependency>
           <groupId>org.wildfly</groupId>
           <artifactId>wildfly-preview-feature-pack</artifactId>
           <version>${wildfly.version}</version>
           <type>pom</type>
           <scope>provided</scope>
-      </dependency>
+      </dependency> -->
 
+      <dependency>
+          <groupId>org.wildfly</groupId>
+          <artifactId>wildfly-galleon-pack</artifactId>
+          <version>${wildfly.version}</version>
+          <type>pom</type>
+          <scope>provided</scope>
+      </dependency>
       
       <dependency>
         <groupId>io.rest-assured</groupId>
@@ -268,8 +275,8 @@
             <feature-pack>
               
               <groupId>org.wildfly</groupId>
-              <!-- <artifactId>wildfly-galleon-pack</artifactId> -->
-              <artifactId>wildfly-preview-feature-pack</artifactId>
+              <artifactId>wildfly-galleon-pack</artifactId>
+              <!-- <artifactId>wildfly-preview-feature-pack</artifactId> -->
               <version>${wildfly.version}</version>
               <!-- <location>wildfly@maven(org.jboss.universe:community-universe)#${wildfly.version}</location> -->
               <!--
@@ -286,10 +293,13 @@
             <layer>jaxrs</layer>
             <layer>logging</layer>
             <layer>observability</layer>
+            <layer>opentelemetry</layer>
+
             <!--
             <layer>cloud-profile</layer>
             -->
             <layer>jpa</layer>
+            <layer>hibernate-search</layer>
 
             <layer>microprofile-reactive-messaging-kafka</layer>
 
@@ -298,11 +308,12 @@
             -->
             <layer>postgresql-datasource</layer>
             <layer>postgresql-tracing-driver</layer>
+            <!-- <layer>postgresql-driver</layer> -->
 
-            <layer>kafka-streams</layer>
-            <layer>kafka-tracing</layer>
+            <!-- <layer>kafka-streams</layer> -->
+            <!-- <layer>kafka-tracing</layer> -->
             <layer>spatial</layer>
-            <layer>jms-tracing</layer>
+            <!-- <layer>jms-tracing</layer> -->
 
             <layer>web-console</layer>
           </layers>

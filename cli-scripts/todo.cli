@@ -5,3 +5,21 @@
 
 /subsystem=elytron-oidc-client/provider=test-provider:add(auth-server-url=http://localhost:8080/auth/realm/oidc,client-key-password=password,client-keystore=keystore.jks,client-keystore-password=password,enable-cors=true,ssl-required=all,token-store=tokenstore.ts,truststore=truststore.jks,truststore-password=password)
 
+/subsystem=jpa:write-attribute(name=default-datasource,value=PostgreSQLDS)
+
+/subsystem=opentelemetry:write-attribute(name=exporter-type,value=jaeger)
+# otel
+
+/subsystem=jaxrs:write-attribute(name=resteasy-prefer-jackson-over-jsonb,value=true)
+
+/subsystem=microprofile-health-smallrye:write-attribute(name=empty-liveness-checks-status,value=UP)
+/subsystem=microprofile-health-smallrye:write-attribute(name=empty-readiness-checks-status,value=UP)
+/subsystem=microprofile-health-smallrye:write-attribute(name=empty-startup-checks-status,value=UP)
+
+
+
+
+TODO
+- configure jgroups clustering subsystem
+- configure artemis jgroups settings
+-configure artemis password with credential store

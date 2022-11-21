@@ -11,11 +11,13 @@ batch
 /subsystem=infinispan/remote-cache-container=testcache/remote-cluster=infinispan-cluster:add(socket-bindings=[infinispan-hot-rod])
 
 # ssl, two way tsl
+# use client tls config clientKeyManager and clientTrustManager from security-client-tls.cli
 /subsystem=elytron/client-ssl-context=infinispanClientSSLContext:add(key-manager=clientKeyManager,trust-manager=clientTrustManager)
 /subsystem=elytron/client-ssl-context=infinispanClientSSLContext:write-attribute(name=protocols,value=[TLSv1.2,TLSv1.3])
 /subsystem=elytron/client-ssl-context=infinispanClientSSLContext:write-attribute(name=cipher-suite-names,value=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256)
 
 # 
+/subsystem=infinispan/remote-cache-container=testcache/component=security:add()
 /subsystem=infinispan/remote-cache-container=testcache/component=security:write-attribute(name=ssl-context,value=infinispanClientSSLContext)
 # 
 /subsystem=infinispan/remote-cache-container=testcache:write-attribute(name=statistics-enabled,value=true)

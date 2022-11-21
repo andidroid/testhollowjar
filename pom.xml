@@ -5,7 +5,7 @@
   <parent>
     <groupId>me.andidroid</groupId>
     <artifactId>test</artifactId>
-    <version>0.0.37</version>
+    <version>0.1.0</version>
   </parent>
   <artifactId>testhollowjar</artifactId>
   <version>0.4.1-SNAPSHOT</version>
@@ -70,6 +70,8 @@
 
     <wildfly.version>27.0.0.Final</wildfly.version>
     <test-feature-pack.version>0.27.4-SNAPSHOT</test-feature-pack.version>
+    <mvc-krazo-feature-pack.version>0.0.1-SNAPSHOT</mvc-krazo-feature-pack.version>
+    <wildfly-grpc-feature-pack.version>0.0.3.Final</wildfly-grpc-feature-pack.version>
     <wildfly-datasources-galleon-pack.version>3.0.0.Final</wildfly-datasources-galleon-pack.version>
 
     <wildfly-maven-plugin.version>4.0.0.Final</wildfly-maven-plugin.version>
@@ -83,9 +85,30 @@
 
   <!-- External non standard repositories -->
   <repositories>
-    <repository>
+      <repository>
       <id>github</id>
+      <url>https://maven.pkg.github.com/andidroid</url>
+            <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+    </repository>
+    <repository>
+      <id>githubtest</id>
       <url>https://maven.pkg.github.com/andidroid/test</url>
+            <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+    </repository>
+    <repository>
+      <id>githubtest-feature-pack</id>
+      <url>https://maven.pkg.github.com/andidroid/test-feature-pack</url>
+    </repository>
+    <repository>
+      <id>githubwildfly-mvc-krazo-feature-pack</id>
+      <url>https://maven.pkg.github.com/andidroid/wildfly-mvc-krazo-feature-pack</url>
+      <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
     </repository>
     <repository>
       <id>JBossEA</id>
@@ -148,6 +171,19 @@
         <type>pom</type>
       </dependency>
 
+      <dependency>
+        <groupId>me.andidroid</groupId>
+        <artifactId>mvc-krazo-feature-pack</artifactId>
+        <version>${mvc-krazo-feature-pack.version}</version>
+        <type>pom</type>
+      </dependency>
+
+      <dependency>
+        <groupId>org.wildfly.extras.grpc</groupId>
+        <artifactId>wildfly-grpc-feature-pack</artifactId>
+        <version>${wildfly-grpc-feature-pack.version}</version>
+        <type>pom</type>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>
@@ -288,6 +324,12 @@
               <artifactId>test-feature-pack</artifactId>
               <version>${test-feature-pack.version}</version>
             </feature-pack>
+
+            <feature-pack>
+              <groupId>me.andidroid</groupId>
+              <artifactId>mvc-krazo-feature-pack</artifactId>
+              <version>${mvc-krazo-feature-pack.version}</version>
+            </feature-pack>
           </feature-packs>
           <layers>
             <layer>jaxrs</layer>
@@ -301,21 +343,33 @@
             <layer>jpa</layer>
             <layer>hibernate-search</layer>
 
-            <layer>microprofile-reactive-messaging-kafka</layer>
+            <!-- <layer>microprofile-reactive-messaging-kafka</layer> -->
 
             <!-- 
             <layer>postgresql-tracing-datasource</layer>
             -->
             <layer>postgresql-datasource</layer>
-            <layer>postgresql-tracing-driver</layer>
+            <layer>postgresql-driver</layer>
+
+            <!-- <layer>postgresql-tracing-driver</layer> -->
             <!-- <layer>postgresql-driver</layer> -->
 
             <!-- <layer>kafka-streams</layer> -->
             <!-- <layer>kafka-tracing</layer> -->
             <layer>spatial</layer>
+            <layer>lucene-spatial</layer>
             <!-- <layer>jms-tracing</layer> -->
 
+            <!-- <layer>messaging-activemq</layer> -->
+            <layer>remote-activemq</layer>
+
             <layer>web-console</layer>
+
+            <layer>config-ext</layer>
+
+            <layer>mvc-krazo</layer>
+            <layer>mvc-krazo-jinja2</layer>
+            <layer>mvc-krazo-velocity</layer>
           </layers>
           <excluded-layers>
             <layer>deployment-scanner</layer>
@@ -333,8 +387,13 @@
                 <script>cli-scripts/security-credentialstore.cli</script>
                 <script>cli-scripts/security-datasource.cli</script>
                 <script>cli-scripts/security-tls.cli</script>
+                <script>cli-scripts/security-client-tls.cli</script>
                 <script>cli-scripts/security-management.cli</script>
                 <script>cli-scripts/undertow-filter.cli</script>
+
+                <script>cli-scripts/system-remote-messaging.cli</script>
+                <script>cli-scripts/infinispan-remote-cache.cli</script>
+
                 <script>cli-scripts/global-modules.cli</script>
               </script-files>
             </cli-session>

@@ -68,7 +68,7 @@
     <mockserver-client-java.version>5.14.0</mockserver-client-java.version>
 
 
-    <wildfly.version>27.0.0.Final</wildfly.version>
+    <wildfly.version>27.0.1.Final</wildfly.version>
     <test-feature-pack.version>0.27.4-SNAPSHOT</test-feature-pack.version>
     <mvc-krazo-feature-pack.version>0.0.1-SNAPSHOT</mvc-krazo-feature-pack.version>
     <wildfly-grpc-feature-pack.version>0.0.3.Final</wildfly-grpc-feature-pack.version>

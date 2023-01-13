@@ -65,7 +65,7 @@
     <rest-assured.version>5.3.0</rest-assured.version>
     <microshed.version>0.9.1</microshed.version>
     <testcontainers.version>1.17.6</testcontainers.version>
-    <mockserver-client-java.version>5.14.0</mockserver-client-java.version>
+    <mockserver-client-java.version>5.15.0</mockserver-client-java.version>
 
 
     <wildfly.version>27.0.1.Final</wildfly.version>

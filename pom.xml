@@ -79,7 +79,7 @@
     <jkube.version>1.9.0</jkube.version>
     <jib.version>3.3.1</jib.version>
     <flyway.version>9.15.2</flyway.version>
-    <postgres.version>42.5.4</postgres.version>
+    <postgres.version>42.6.0</postgres.version>
     <artemis.version>2.26.0</artemis.version>
   </properties>
 

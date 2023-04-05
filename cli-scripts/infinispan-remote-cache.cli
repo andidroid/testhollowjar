@@ -7,8 +7,8 @@ batch
 /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=infinispan-hot-rod:write-attribute(name=port,value=${infinispan.port,env.INFINISPANL_PORT:11222})
 
 # need to run following in batch mode: remote-cache-container:add and remote-cache-container:remote-cluster:add
-/subsystem=infinispan/remote-cache-container=testcache:add(default-remote-cluster=infinispan-cluster)
-/subsystem=infinispan/remote-cache-container=testcache/remote-cluster=infinispan-cluster:add(socket-bindings=[infinispan-hot-rod])
+/subsystem=infinispan/remote-cache-container=testremotecachecontainer:add(default-remote-cluster=infinispan-cluster)
+/subsystem=infinispan/remote-cache-container=testremotecachecontainer/remote-cluster=infinispan-cluster:add(socket-bindings=[infinispan-hot-rod])
 
 # ssl, two way tsl
 # use client tls config clientKeyManager and clientTrustManager from security-client-tls.cli
@@ -17,9 +17,39 @@ batch
 /subsystem=elytron/client-ssl-context=infinispanClientSSLContext:write-attribute(name=cipher-suite-names,value=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256)
 
 # 
-/subsystem=infinispan/remote-cache-container=testcache/component=security:add()
-/subsystem=infinispan/remote-cache-container=testcache/component=security:write-attribute(name=ssl-context,value=infinispanClientSSLContext)
+/subsystem=infinispan/remote-cache-container=testremotecachecontainer/component=security:add()
+/subsystem=infinispan/remote-cache-container=testremotecachecontainer/component=security:write-attribute(name=ssl-context,value=infinispanClientSSLContext)
 # 
-/subsystem=infinispan/remote-cache-container=testcache:write-attribute(name=statistics-enabled,value=true)
+/subsystem=infinispan/remote-cache-container=testremotecachecontainer:write-attribute(name=statistics-enabled,value=true)
+# properties for hot rod client
+/subsystem=infinispan/remote-cache-container=testremotecachecontainer:write-attribute(name=properties,value={"infinispan.client.hotrod.auth_username" => "admin","infinispan.client.hotrod.auth_password" => "admin","infinispan.client.hotrod.auth_realm" => "properties","infinispan.client.hotrod.sasl_mechanism" => "PLAIN"})
+
+
+
+# hot rod based cache container in cluster
+# /subsystem=infinispan/cache-container=testcachecontainer:add()
+# /subsystem=jgroups/channel=alpha:add(stack=tcp)
+# /subsystem=infinispan/cache-container=testcachecontainer/transport=jgroups:add(channel=alpha)
+# /subsystem=infinispan/cache-container=testcachecontainer/invalidation-cache=testcache:add()
+# /subsystem=infinispan/cache-container=testcachecontainer/invalidation-cache=testcache/store=hotrod:add(remote-cache-container=testremotecachecontainer, cache-configuration=transactional, fetch-state=false, shared=true)
+# /subsystem=infinispan/cache-container=testcachecontainer/invalidation-cache=testcache/component=transaction:add(mode=BATCH)
+# /subsystem=infinispan/cache-container=testcachecontainer/invalidation-cache=testcache/component=locking:add(isolation=REPEATABLE_READ)
+
+
+
+# properties for hot rod client
+# infinispan.client.hotrod.auth_username = admin
+# infinispan.client.hotrod.auth_password = admin
+# SCRAM-SHA-256 DIGEST-MD5
+# ,"infinispan.client.hotrod.marshaller" => "org.infinispan.commons.marshall.UTF8StringMarshaller"
+
+
+# tls
+# ,"infinispan.client.hotrod.trust_store_file_name" => "client.truststore","infinispan.client.hotrod.trust_store_type" => "JKS","infinispan.client.hotrod.trust_store_password" => "password","infinispan.client.hotrod.key_store_file_name" => "client.keystore","infinispan.client.hotrod.key_store_type" => "JKS","infinispan.client.hotrod.key_store_password" => "password"
+# ,"infinispan.client.hotrod.marshaller" => "org.infinispan.commons.marshall.UTF8StringMarshaller"
+
+#        <property name="infinispan.client.hotrod.auth_realm">default</property>
+#        <property name="infinispan.client.hotrod.auth_server_name">infinispan</property>
+#        <property name="infinispan.client.hotrod.sasl_mechanism">SCRAM-SHA-512</property>
 
 run-batch

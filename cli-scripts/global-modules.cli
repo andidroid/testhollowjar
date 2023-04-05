@@ -15,4 +15,11 @@ batch
 # /subsystem=ee:list-add(name=global-modules,value={name=org.apache.kafka.kafka-streams,services=true,meta-inf=true,annotations=true})
 # /subsystem=ee:list-add(name=global-modules,value={name=io.opentracing.contrib.opentracing-kafka-streams,services=true,meta-inf=true,annotations=true})
 # /subsystem=ee:list-add(name=global-modules,value={name=io.opentracing.contrib.opentracing-kafka-client,services=true,meta-inf=true,annotations=true})
+
+/subsystem=ee:list-add(name=global-modules,value={name=io.opentelemetry.instrumentation.opentelemetry-jms})
+
+
+/subsystem=ee:list-add(name=global-modules,value={name=org.eclipse.krazo.ext.krazo-jinja2})
+/subsystem=ee:list-add(name=global-modules,value={name=org.eclipse.krazo.ext.krazo-velocity})
+
 run-batch

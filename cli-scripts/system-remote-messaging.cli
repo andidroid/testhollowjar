@@ -23,6 +23,14 @@ batch
 # /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true"})
 # /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true","enabled-cipher-suites" => "TLS_AES_256_GCM_SHA384","enabled-protocols" => "TLSv1.2","key-store-password" => "password","key-store-path" => "client.keystore","key-store-provider" => "JKS","trust-store-password" => "password","trust-store-path" => "client.truststore","trust-store-provider" => "JKS"})
 
+# ssl, two way tsl
+# use client tls config clientKeyManager and clientTrustManager from security-client-tls.cli
+/subsystem=elytron/client-ssl-context=artemisClientSSLContext:add(key-manager=clientKeyManager,trust-manager=clientTrustManager)
+/subsystem=elytron/client-ssl-context=artemisClientSSLContext:write-attribute(name=protocols,value=[TLSv1.2,TLSv1.3])
+/subsystem=elytron/client-ssl-context=artemisClientSSLContext:write-attribute(name=cipher-suite-names,value=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256)
+
+# /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=ssl-context,value=artemisClientSSLContext)
+
 # TODO: discovery group
 # /subsystem=messaging-activemq/jgroups-discovery-group=artemis-dg:add(jgroups-cluster="artemis", jgroups-channel=ee, jgroups-stack=tcp)
 # /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=discovery-group, value=artemis-dg)
@@ -61,6 +69,7 @@ batch
 
 /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=messaging-activemq:write-attribute(name=host,value=${jboss.messaging.connector.host,env.ARTEMIS_HOST:localhost})
 /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=messaging-activemq:write-attribute(name=port,value=${jboss.messaging.connector.port,env.ARTEMIS_PORT:61616})
+
 
 
 # TODO elytron client security

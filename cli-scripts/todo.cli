@@ -23,3 +23,82 @@ TODO
 - configure jgroups clustering subsystem
 - configure artemis jgroups settings
 -configure artemis password with credential store
+
+- change JKS to PKCS12
+    https://github.com/wildfly/wildfly/pull/16428
+    keytool -genkeypair -alias client -keyalg RSA -keysize 2048 -validity 365 -keystore client.keystore.pkcs12 -dname "CN=client" -keypass secret -storepass secret
+    keytool -exportcert  -keystore client.keystore.pkcs12 -alias client -keypass secret -storepass secret -file client.cer
+
+
+
+- SSL Context in Artemis client
+/subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=ssl-context,value=artemisSSLContext)
+
+Fhler infinispan
+- bei remote testcache: Missing metadata: [resource description] @ {selected.profile}/subsystem=infinispan/remote-cache-container=*/near-cache=invalidation
+
+- bei hibernate: Dispatcher error: {"WFLYCTL0062: Composite operation failed and was rolled back. Steps that failed:" => {"Operation step-1" => "WFLYCTL0030: No resource definition is registered for address [
+    (\"subsystem\" => \"infinispan\"),
+    (\"cache-container\" => \"*\"),
+    (\"thread-pool\" => \"persistence\")
+]"}}
+
+/core-service=capability-registry:suggest-capabilities(name=org.wildfly.network.outbound-socket-binding,dependent-address=[("subsystem" => "infinispan"),("remote-cache-container" => "*")])
+/subsystem=infinispan/remote-cache-container=rem:add(default-remote-cluster=infinispan-cluster)
+/subsystem=infinispan/remote-cache-container=rem/remote-cluster=infinispan-cluster:add(socket-bindings=["infinispan-hot-rod"])
+
+/subsystem=infinispan/cache-container=local:add
+/subsystem=infinispan/cache-container=loc:add
+/subsystem=infinispan/cache-container=loc/local-cache=loccache:add
+/core-service=capability-registry:suggest-capabilities(name=org.wildfly.clustering.infinispan.remote-cache-container,dependent-address=[("subsystem" => "infinispan"),("cache-container" => "*"),("local-cache" => "*"),("store" => "hotrod")])
+/subsystem=infinispan/cache-container=loc/local-cache=loccache/store=hotrod:add(remote-cache-container=rem){allow-resource-service-restart=true}
+
+
+-- deprecation warnings
+
+2023-04-01T16:12:27813+02:00 INFO  [org.jboss.as.controller.management-deprecated] (ServerService Thread Pool -- 4)   WFLYCTL0028: Attribute 'elytron-enabled' in the resource at address '/subsystem=datasources/data-source=PostgreSQLDS' is deprecated, and may be removed in a future version. See the attribute description in the output of the read-resource-description operation to learn more about the deprecation.
+2023-04-01T16:12:27842+02:00 WARN  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 2)   WFLYCLINF0033: Attribute 'marshaller' is configured to use a deprecated value: LEGACY; use one of the following values instead: [JBOSS, PROTOSTREAM]
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------
+
+
+Add Authentication for infinispan remote cache via hot rod client
+
+<distributed-cache name="sessions" 
+                   owners="1"> 
+    <remote-store cache="sessions" 
+                  remote-servers="remote-cache" 
+                  passivation="false"
+                  fetch-state="false"
+                  purge="false"
+                  preload="false"
+                  shared="true">
+        <property name="rawValues">true</property>
+        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+        <property name="infinispan.client.hotrod.auth_username">myuser</property>
+        <property name="infinispan.client.hotrod.auth_password">qwer1234!</property>
+        <property name="infinispan.client.hotrod.auth_realm">default</property>
+        <property name="infinispan.client.hotrod.auth_server_name">infinispan</property>
+        <property name="infinispan.client.hotrod.sasl_mechanism">SCRAM-SHA-512</property>
+        <property name="infinispan.client.hotrod.trust_store_file_name">/path/to/truststore.jks</property>
+        <property name="infinispan.client.hotrod.trust_store_type">JKS</property>
+        <property name="infinispan.client.hotrod.trust_store_password">password</property>
+    </remote-store>
+</distributed-cache>
+
+infinispan.client.hotrod.marshaller = org.infinispan.commons.marshall.ProtoStreamMarshaller
+infinispan.client.hotrod.marshaller = org.infinispan.commons.marshall.UTF8StringMarshaller
+
+infinispan.client.hotrod.client_intelligence">BASIC<

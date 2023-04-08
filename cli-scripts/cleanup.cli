@@ -1,13 +1,18 @@
 batch
 
-/subsystem=jgroups/stack=udp:remove
-/socket-binding-group=standard-sockets/socket-binding=jgroups-mping:remove
-/socket-binding-group=standard-sockets/socket-binding=jgroups-udp:remove
+# TODO reenable for cluster
+#/subsystem=jgroups/stack=udp:remove
+#/socket-binding-group=standard-sockets/socket-binding=jgroups-mping:remove
+#/socket-binding-group=standard-sockets/socket-binding=jgroups-udp:remove
 
-
-/subsystem=jgroups/channel=ee:write-attribute(name=cluster,value=test)
+#/subsystem=jgroups/channel=ee:write-attribute(name=cluster,value=test)
 
 # remove jgroups password for development
 #/subsystem=jgroups/stack=tcp/protocol=AUTH/token=digest:remove
+
+
+
+# set defalt client ssl context, can be accessed with javax.net.ssl.SSLContext.getDefault();
+/subsystem=elytron:write-attribute(name=default-ssl-context, value=clientSSLContext)
 
 run-batch

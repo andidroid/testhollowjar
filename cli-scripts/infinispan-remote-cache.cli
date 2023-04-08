@@ -22,9 +22,11 @@ batch
 # 
 /subsystem=infinispan/remote-cache-container=testremotecachecontainer:write-attribute(name=statistics-enabled,value=true)
 # properties for hot rod client
-/subsystem=infinispan/remote-cache-container=testremotecachecontainer:write-attribute(name=properties,value={"infinispan.client.hotrod.auth_username" => "admin","infinispan.client.hotrod.auth_password" => "admin","infinispan.client.hotrod.auth_realm" => "properties","infinispan.client.hotrod.sasl_mechanism" => "PLAIN"})
+/subsystem=infinispan/remote-cache-container=testremotecachecontainer:write-attribute(name=properties,value={"infinispan.client.hotrod.auth_username" => "admin","infinispan.client.hotrod.auth_password" => "admin","infinispan.client.hotrod.auth_realm" => "default","infinispan.client.hotrod.sasl_mechanism" => "PLAIN","infinispan.client.hotrod.marshaller" => "org.infinispan.commons.marshall.ProtoStreamMarshaller"})
 
 
+
+#,"infinispan.client.hotrod.sasl_mechanism" => "PLAIN"
 
 # hot rod based cache container in cluster
 # /subsystem=infinispan/cache-container=testcachecontainer:add()
@@ -35,12 +37,14 @@ batch
 # /subsystem=infinispan/cache-container=testcachecontainer/invalidation-cache=testcache/component=transaction:add(mode=BATCH)
 # /subsystem=infinispan/cache-container=testcachecontainer/invalidation-cache=testcache/component=locking:add(isolation=REPEATABLE_READ)
 
+/subsystem=infinispan/remote-cache-container=testremotecachecontainer:write-attribute(name=marshaller,value=PROTOSTREAM)
+  
 
 
 # properties for hot rod client
 # infinispan.client.hotrod.auth_username = admin
 # infinispan.client.hotrod.auth_password = admin
-# SCRAM-SHA-256 DIGEST-MD5
+# SCRAM-SHA-256 DIGEST-MD5 SCRAM-SHA-512
 # ,"infinispan.client.hotrod.marshaller" => "org.infinispan.commons.marshall.UTF8StringMarshaller"
 
 
@@ -48,8 +52,14 @@ batch
 # ,"infinispan.client.hotrod.trust_store_file_name" => "client.truststore","infinispan.client.hotrod.trust_store_type" => "JKS","infinispan.client.hotrod.trust_store_password" => "password","infinispan.client.hotrod.key_store_file_name" => "client.keystore","infinispan.client.hotrod.key_store_type" => "JKS","infinispan.client.hotrod.key_store_password" => "password"
 # ,"infinispan.client.hotrod.marshaller" => "org.infinispan.commons.marshall.UTF8StringMarshaller"
 
+# see https://github.com/infinispan/infinispan/blob/main/client/hotrod/src/main/java/org/infinispan/hotrod/configuration/***Configuration.java
+
 #        <property name="infinispan.client.hotrod.auth_realm">default</property>
 #        <property name="infinispan.client.hotrod.auth_server_name">infinispan</property>
 #        <property name="infinispan.client.hotrod.sasl_mechanism">SCRAM-SHA-512</property>
+# <property name="infinispan.client.hotrod.client_intelligence">BASIC</property>
+
+
+#infinispan.client.hotrod.statistics = true
 
 run-batch

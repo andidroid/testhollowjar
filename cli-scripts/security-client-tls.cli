@@ -13,4 +13,7 @@ batch
 /subsystem=elytron/client-ssl-context=clientSSLContext:write-attribute(name=protocols,value=[TLSv1.2,TLSv1.3])
 /subsystem=elytron/client-ssl-context=clientSSLContext:write-attribute(name=cipher-suite-names,value=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256)
 
+# set defalt client ssl context, can be accessed with javax.net.ssl.SSLContext.getDefault();
+# /subsystem=elytron:write-attribute(name=default-ssl-context, value=clientSSLContext)
+
 run-batch

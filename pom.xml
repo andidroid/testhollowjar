@@ -339,7 +339,7 @@
             <layer>jsf</layer>
 
             
-            <!-- <layer>elytron-oidc-client</layer> -->
+            <layer>elytron-oidc-client</layer>
 
             <!--
             <layer>cloud-profile</layer>
@@ -400,12 +400,14 @@
                 <script>cli-scripts/security-tls.cli</script>
                 <script>cli-scripts/security-client-tls.cli</script>
                 <script>cli-scripts/security-management.cli</script>
+                <script>cli-scripts/security-oidc.cli</script>
                 <script>cli-scripts/undertow-filter.cli</script>
                 <script>cli-scripts/system-telemetry.cli</script>
                 <script>cli-scripts/system-remote-messaging.cli</script>
                 <script>cli-scripts/infinispan-remote-cache.cli</script>
 
                 <script>cli-scripts/global-modules.cli</script>
+                <script>cli-scripts/cleanup.cli</script>
               </script-files>
             </cli-session>
           </cli-sessions>

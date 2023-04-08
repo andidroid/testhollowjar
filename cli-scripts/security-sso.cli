@@ -24,7 +24,9 @@ batch
 /subsystem=undertow/application-security-domain=applicationFsSecurityDomain:add(http-authentication-factory=applicationFs-http-authentication)
 /subsystem=undertow/application-security-domain=ApplicationDomain:add(http-authentication-factory=application-http-authentication)
 
-# set default application-security-domain
+# set default application-security-domain, dont need to set 
+# https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/8-beta/html/securing_applications_and_management_interfaces_using_multiple_identity_stores/securing_management_interfaces_and_applications#proc_adding-authentication-and-authorization-to-management-interfaces_default
+# https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/8-beta/html/securing_applications_and_management_interfaces_using_multiple_identity_stores/securing_management_interfaces_and_applications#proc_adding-authentication-and-authorization-to-applications-for-aggregate-realm_assembly_using-a-security-domain-to-authenticate-and-authorize-application-users-aggregate-realm
 /subsystem=undertow:write-attribute(name=default-security-domain, value="applicationFsSecurityDomain")
 # override-deployment-config
 /subsystem=undertow/application-security-domain=applicationFsSecurityDomain:write-attribute(name=override-deployment-config,value=true)

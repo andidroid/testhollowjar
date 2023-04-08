@@ -1,0 +1,23 @@
+batch
+
+# /subsystem=elytron-oidc-client/secure-deployment=simple-oidc-example.war/:add(client-id=my_jbeap,provider-url=http://localhost:9080/auth/realms/example_realm,public-client=true,ssl-required=external)
+
+/subsystem=elytron-oidc-client/provider=keycloak:add
+/subsystem=elytron-oidc-client/provider=keycloak:undefine-attribute(name=provider-url)
+# /subsystem=elytron-oidc-client/provider=keycloak:write-attribute(name=provider-url,value=http://localhost:9080/auth/realms/testrealm)
+/subsystem=elytron-oidc-client/provider=keycloak:write-attribute(name=auth-server-url,value=http://localhost:9080/)
+/subsystem=elytron-oidc-client/realm=testrealm:add
+/subsystem=elytron-oidc-client/secure-deployment=testwar.war:add
+# (client-id=testwar) ???
+#,credential={"secret" => "clientpassword"},realm=testrealm,auth-server-url=http://localhost:9080/)
+# ,provider=keycloak
+/subsystem=elytron-oidc-client/secure-deployment=testwar.war:write-attribute(name=realm,value=testrealm)
+# /subsystem=elytron-oidc-client/secure-deployment=testwar.war:write-attribute(name=credential.secret,value=clientpassword)
+/subsystem=elytron-oidc-client/secure-deployment=testwar.war/credential=secret:add
+/subsystem=elytron-oidc-client/secure-deployment=testwar.war/credential=secret:write-attribute(name=secret,value=clientpassword)
+/subsystem=elytron-oidc-client/secure-deployment=testwar.war:write-attribute(name=resource,value=testwar)
+/subsystem=elytron-oidc-client/secure-deployment=testwar.war:write-attribute(name=auth-server-url,value=http://localhost:9080/)
+/subsystem=elytron-oidc-client/secure-deployment=testwar.war:write-attribute(name=ssl-required,value=external)
+
+
+run-batch

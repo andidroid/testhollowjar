@@ -19,7 +19,8 @@ batch
 /subsystem=logging/logger=org.jgroups:add(level=INFO)
 /subsystem=logging/logger=org.apache.activemq:add(level=INFO)
 /subsystem=logging/logger=org.eclipse.krazo:add(level=DEBUG)
-
+/subsystem=logging/logger=io.opentelemetry:add(level=DEBUG)
+/subsystem=logging/logger=io.microprofile:add(level=DEBUG)
 
 # TODO: logging profile
 # /subsystem=logging/logging-profile=test:add

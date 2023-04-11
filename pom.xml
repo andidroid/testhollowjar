@@ -336,6 +336,7 @@
             <layer>logging</layer>
             <layer>observability</layer>
             <layer>opentelemetry</layer>
+            <!-- <layer>micrometer</layer> -->
             <layer>jsf</layer>
 
             
@@ -395,12 +396,20 @@
             <cli-session>
               <properties-file>cli-scripts/cli.properties</properties-file>
               <script-files>
+                <script>cli-scripts/system-property.cli</script>
+              </script-files>
+            </cli-session>
+            <cli-session>
+              <properties-file>cli-scripts/cli.properties</properties-file>
+              <script-files>
+                <!-- <script>cli-scripts/system-property.cli</script> -->
                 <script>cli-scripts/security-credentialstore.cli</script>
                 <script>cli-scripts/security-datasource.cli</script>
                 <script>cli-scripts/security-tls.cli</script>
                 <script>cli-scripts/security-client-tls.cli</script>
                 <script>cli-scripts/security-management.cli</script>
                 <script>cli-scripts/security-oidc.cli</script>
+                <script>cli-scripts/security-sso.cli</script>
                 <script>cli-scripts/undertow-filter.cli</script>
                 <script>cli-scripts/system-telemetry.cli</script>
                 <script>cli-scripts/system-remote-messaging.cli</script>

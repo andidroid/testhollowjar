@@ -16,20 +16,10 @@ batch
 /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=pre-acknowledge, value=true)
 /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=entries, value=[java:/JmsXA,java:jboss/JmsXA,java:/RemoteJmsXA,java:jboss/RemoteJmsXA,java:jboss/DefaultJMSConnectionFactory])
 
+# /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true"})
+
 # TODO 
 # /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=credential-reference , value= ... )
-
-# 2 way tls security, TODO TLSv1.3 TLS_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256s
-# /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true"})
-# /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true","enabled-cipher-suites" => "TLS_AES_256_GCM_SHA384","enabled-protocols" => "TLSv1.2","key-store-password" => "password","key-store-path" => "client.keystore","key-store-provider" => "JKS","trust-store-password" => "password","trust-store-path" => "client.truststore","trust-store-provider" => "JKS"})
-
-# ssl, two way tsl
-# use client tls config clientKeyManager and clientTrustManager from security-client-tls.cli
-/subsystem=elytron/client-ssl-context=artemisClientSSLContext:add(key-manager=clientKeyManager,trust-manager=clientTrustManager)
-/subsystem=elytron/client-ssl-context=artemisClientSSLContext:write-attribute(name=protocols,value=[TLSv1.2,TLSv1.3])
-/subsystem=elytron/client-ssl-context=artemisClientSSLContext:write-attribute(name=cipher-suite-names,value=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256)
-
-# /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=ssl-context,value=artemisClientSSLContext)
 
 # TODO: discovery group
 # /subsystem=messaging-activemq/jgroups-discovery-group=artemis-dg:add(jgroups-cluster="artemis", jgroups-channel=ee, jgroups-stack=tcp)
@@ -65,8 +55,6 @@ batch
 /subsystem=messaging-activemq/external-jms-queue=WebGISServiceQueue:add(entries=["java:global/remoteContext/WebGISServiceQueue"])
 /subsystem=messaging-activemq/external-jms-queue=WebGISQueue:add(entries=["java:global/remoteContext/WebGISQueue"])
 
-
-
 /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=messaging-activemq:write-attribute(name=host,value=${jboss.messaging.connector.host,env.ARTEMIS_HOST:localhost})
 /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=messaging-activemq:write-attribute(name=port,value=${jboss.messaging.connector.port,env.ARTEMIS_PORT:61616})
 
@@ -76,3 +64,21 @@ batch
 
 
 run-batch
+
+# run if statement outside of batch mode
+# ssl, two way tsl
+# use client tls config clientKeyManager and clientTrustManager from security-client-tls.cli
+if (result.value == "true") of /system-property=tls.enabled:read-resource
+    echo tls enabled
+    /subsystem=elytron/client-ssl-context=artemisClientSSLContext:add(key-manager=clientKeyManager,trust-manager=clientTrustManager)
+    /subsystem=elytron/client-ssl-context=artemisClientSSLContext:write-attribute(name=protocols,value=[TLSv1.2,TLSv1.3])
+    /subsystem=elytron/client-ssl-context=artemisClientSSLContext:write-attribute(name=cipher-suite-names,value=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256)
+    /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=ssl-context,value=artemisClientSSLContext)
+    # 2 way tls security, TODO TLSv1.3 TLS_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256s
+    # /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"verifyHost" => "false","enabledProtocols" => "TLSv1.2","use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true"})
+    # /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true"})
+    # /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true","enabled-protocols" => "TLSv1.2","enabled-cipher-suites" => "TLS_AES_256_GCM_SHA384","key-store-password" => "password","key-store-path" => "client.keystore","key-store-provider" => "JKS","trust-store-password" => "password","trust-store-path" => "client.truststore","trust-store-provider" => "JKS"})
+    /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=messaging-activemq:write-attribute(name=port,value=${jboss.messaging.connector.port,env.ARTEMIS_PORT:61617})
+else
+    echo tls disabled
+end-if

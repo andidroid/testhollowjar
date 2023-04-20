@@ -370,6 +370,7 @@
             <layer>remote-activemq</layer>
 
             <layer>web-console</layer>
+            <layer>netty-tcnative</layer>
 
 <!--
             <layer>web-clustering</layer>
@@ -426,6 +427,7 @@
           </extra-server-content-dirs>
           <plugin-options>
             <jboss-fork-embedded>${plugin.fork.embedded}</jboss-fork-embedded>
+            <!-- <jboss-overridden-artifacts>io.netty:netty-tcnative-boringssl-static:2.0.59.Final:windows-x86_64:jar</jboss-overridden-artifacts> -->
           </plugin-options>
           <!-- <cloud>
             <type>kubernetes</type>

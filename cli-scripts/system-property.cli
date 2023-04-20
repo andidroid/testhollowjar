@@ -2,3 +2,4 @@
 /system-property=wildfly.statistics-enabled:add(value=true)
 /system-property=tls.enabled:add(value=${tls.enabled:false})
 
+/system-property=cluster.enabled:add(value=${cluster.enabled:false})

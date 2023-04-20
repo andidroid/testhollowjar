@@ -4,10 +4,13 @@ batch
 # /subsystem=ee/global-directory=my-common-libs:add(path=lib, relative-to=jboss.home.dir)
 
 # add global modules  
-/subsystem=ee:write-attribute(name=global-modules,value=[]
+/subsystem=ee:write-attribute(name=global-modules,value=[])
 /subsystem=ee:list-add(name=global-modules,value={name=org.postgresql})
 /subsystem=ee:list-add(name=global-modules,value={name=io.smallrye.config.ext})
 /subsystem=ee:list-add(name=global-modules,value={name=org.hibernate.spatial,services=true})
+
+/subsystem=ee:list-add(name=global-modules,value={name=io.netty.netty-tcnative,services=true,meta-inf=true,annotations=true})
+
 # /subsystem=ee:list-add(name=global-modules,value={name=io.smallrye.openapi.ui,services=true,meta-inf=true,annotations=true})
 # /subsystem=ee:list-add(name=global-modules,value={name=io.opentracing.contrib.opentracing-jms-2,services=true,meta-inf=true,annotations=true})
 # /subsystem=ee:list-add(name=global-modules,value={name=io.opentracing.contrib.opentracing-jms-2,services=true,meta-inf=true,annotations=true})
@@ -16,10 +19,11 @@ batch
 # /subsystem=ee:list-add(name=global-modules,value={name=io.opentracing.contrib.opentracing-kafka-streams,services=true,meta-inf=true,annotations=true})
 # /subsystem=ee:list-add(name=global-modules,value={name=io.opentracing.contrib.opentracing-kafka-client,services=true,meta-inf=true,annotations=true})
 
-/subsystem=ee:list-add(name=global-modules,value={name=io.opentelemetry.instrumentation.opentelemetry-jms})
+/subsystem=ee:list-add(name=global-modules,value={name=io.opentelemetry.instrumentation.opentelemetry-jms,services=true,meta-inf=true,annotations=true})
+
+/subsystem=ee:list-add(name=global-modules,value={name=org.eclipse.krazo.ext.krazo-jinja2,services=true,meta-inf=true,annotations=true})
+/subsystem=ee:list-add(name=global-modules,value={name=org.eclipse.krazo.ext.krazo-velocity,services=true,meta-inf=true,annotations=true})
 
 
-/subsystem=ee:list-add(name=global-modules,value={name=org.eclipse.krazo.ext.krazo-jinja2})
-/subsystem=ee:list-add(name=global-modules,value={name=org.eclipse.krazo.ext.krazo-velocity})
 
 run-batch

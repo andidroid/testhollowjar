@@ -31,4 +31,9 @@ batch
 # /subsystem=logging/logging-profile=test/console-handler=console:add(level=FINE,target=console)
 # /subsystem=logging/logging-profile=test/logger=test:add(level=ALL,handlers=["console"],use-parent-handlers=true)
 
+
+# Audit Logging
+
+# /subsystem=elytron/custom-security-event-listener=TestCustomSecurityEventListener:add(class-name=me.andidroid.config.TestCustomSecurityEventListener,module=me.andidroid.config.ext)
+
 run-batch

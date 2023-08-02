@@ -332,19 +332,19 @@
             </feature-pack>
           </feature-packs>
           <layers>
+
+            <layer>ee-core-profile-server</layer>
+            <layer>cloud-server</layer>
+            <layer>cloud-profile</layer>
+            <layer>microprofile-platform</layer>
+
             <layer>jaxrs</layer>
             <layer>logging</layer>
             <layer>observability</layer>
             <layer>opentelemetry</layer>
             <!-- <layer>micrometer</layer> -->
             <layer>jsf</layer>
-
-            
             <layer>elytron-oidc-client</layer>
-
-            <!--
-            <layer>cloud-profile</layer>
-            -->
             <layer>jpa</layer>
             <layer>hibernate-search</layer>
 
@@ -386,6 +386,7 @@
           </layers>
           <excluded-layers>
             <layer>deployment-scanner</layer>
+            <layer>jms-activemq</layer>
           </excluded-layers>
           <cli-sessions>
             <cli-session>

@@ -5,10 +5,10 @@
   <parent>
     <groupId>me.andidroid</groupId>
     <artifactId>test</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
   </parent>
   <artifactId>testhollowjar</artifactId>
-  <version>0.4.1-SNAPSHOT</version>
+  <version>0.5.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>testhollowjar</name>
@@ -69,10 +69,11 @@
 
 
     <wildfly.version>30.0.0.Final</wildfly.version>
-    <test-feature-pack.version>0.28.0-SNAPSHOT</test-feature-pack.version>
+    <test-feature-pack.version>0.30.0-SNAPSHOT</test-feature-pack.version>
     <mvc-krazo-feature-pack.version>0.0.2-SNAPSHOT</mvc-krazo-feature-pack.version>
     <wildfly-grpc-feature-pack.version>0.1.2</wildfly-grpc-feature-pack.version>
-    <wildfly-datasources-galleon-pack.version>5.0.0.Final</wildfly-datasources-galleon-pack.version>
+    <wildfly-datasources-galleon-pack.version>6.0.0.Final</wildfly-datasources-galleon-pack.version>
+    <wildfly-graphql-feature-pack.version>2.1.0.Final</wildfly-graphql-feature-pack.version>
 
     <wildfly-maven-plugin.version>4.2.0.Final</wildfly-maven-plugin.version>
     <wildfly-jar-maven-plugin.version>10.0.0.Final</wildfly-jar-maven-plugin.version>
@@ -80,7 +81,7 @@
     <jib.version>3.4.0</jib.version>
     <flyway.version>9.22.3</flyway.version>
     <postgres.version>42.6.0</postgres.version>
-    <artemis.version>2.26.0</artemis.version>
+    <artemis.version>2.31.0</artemis.version>
   </properties>
 
   <!-- External non standard repositories -->
@@ -370,22 +371,31 @@
             <layer>remote-activemq</layer>
 
             <layer>web-console</layer>
+            <!--
             <layer>netty-tcnative</layer>
-
+            -->
 <!--
             <layer>web-clustering</layer>
 -->
-
+<!--
+  TODO error 
+  Provisioning failed: Failed to process JBoss module XML template for feature-pack me.andidroid:test-feature-pack:0.29.2-SNAPSHOT package io.smallrye.config.ext: Unknown artifact in module io.smallrye.config.ext
             <layer>config-ext</layer>
-
+-->
+<layer>config-ext</layer>
+<!--
             <layer>mvc-krazo</layer>
             <layer>mvc-krazo-jinja2</layer>
             <layer>mvc-krazo-velocity</layer>
+-->
 
+            <layer>deployment-scanner</layer>
+<!--
             <layer>opentelemetry-jms</layer>
+-->
           </layers>
           <excluded-layers>
-            <layer>deployment-scanner</layer>
+            <!-- <layer>deployment-scanner</layer> -->
             <layer>jms-activemq</layer>
           </excluded-layers>
           <cli-sessions>
@@ -410,7 +420,9 @@
                 <script>cli-scripts/security-tls.cli</script>
                 <script>cli-scripts/security-client-tls.cli</script>
                 <script>cli-scripts/security-management.cli</script>
+                <!--
                 <script>cli-scripts/security-oidc.cli</script>
+                -->
                 <script>cli-scripts/security-sso.cli</script>
                 <script>cli-scripts/undertow-filter.cli</script>
                 <script>cli-scripts/system-telemetry.cli</script>

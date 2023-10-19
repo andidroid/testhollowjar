@@ -1,23 +1,44 @@
 batch
 
-# /subsystem=elytron-oidc-client/secure-deployment=simple-oidc-example.war/:add(client-id=my_jbeap,provider-url=http://localhost:9080/auth/realms/example_realm,public-client=true,ssl-required=external)
+# /subsystem=elytron-oidc-client/secure-deployment=simple-oidc-example.war/:add(client-id=my_jbeap,provider-url=http://localhost:9180/auth/realms/example_realm,public-client=true,ssl-required=external)
 
 /subsystem=elytron-oidc-client/provider=keycloak:add
 /subsystem=elytron-oidc-client/provider=keycloak:undefine-attribute(name=provider-url)
-# /subsystem=elytron-oidc-client/provider=keycloak:write-attribute(name=provider-url,value=http://localhost:9080/auth/realms/testrealm)
-/subsystem=elytron-oidc-client/provider=keycloak:write-attribute(name=auth-server-url,value=http://localhost:9080/)
+# /subsystem=elytron-oidc-client/provider=keycloak:write-attribute(name=provider-url,value=http://localhost:9180/auth/realms/testrealm)
+/subsystem=elytron-oidc-client/provider=keycloak:write-attribute(name=auth-server-url,value=http://localhost:9180/)
 /subsystem=elytron-oidc-client/realm=testrealm:add
 /subsystem=elytron-oidc-client/secure-deployment=testwar.war:add
 # (client-id=testwar) ???
-#,credential={"secret" => "clientpassword"},realm=testrealm,auth-server-url=http://localhost:9080/)
+#,credential={"secret" => "clientpassword"},realm=testrealm,auth-server-url=http://localhost:9180/)
 # ,provider=keycloak
 /subsystem=elytron-oidc-client/secure-deployment=testwar.war:write-attribute(name=realm,value=testrealm)
 # /subsystem=elytron-oidc-client/secure-deployment=testwar.war:write-attribute(name=credential.secret,value=clientpassword)
 /subsystem=elytron-oidc-client/secure-deployment=testwar.war/credential=secret:add
 /subsystem=elytron-oidc-client/secure-deployment=testwar.war/credential=secret:write-attribute(name=secret,value=clientpassword)
 /subsystem=elytron-oidc-client/secure-deployment=testwar.war:write-attribute(name=resource,value=testwar)
-/subsystem=elytron-oidc-client/secure-deployment=testwar.war:write-attribute(name=auth-server-url,value=http://localhost:9080/)
+/subsystem=elytron-oidc-client/secure-deployment=testwar.war:write-attribute(name=auth-server-url,value=http://localhost:9180/)
 /subsystem=elytron-oidc-client/secure-deployment=testwar.war:write-attribute(name=ssl-required,value=external)
 
+
+# Securing the WildFly Management Console with OpenID Connect
+# https://wildfly-security.github.io/wildfly-elytron/blog/securing-management-console-oidc/
+# https://www.mastertheboss.com/keycloak/securing-wildfly-management-console-with-keycloak/
+
+# Configure the Keycloak provider
+/subsystem=elytron-oidc-client/provider=keycloak-wildfly-infra:add(provider-url=http://localhost:9180/realms/wildfly-infra)
+
+# Create a secure-deployment in order to secure the management interface with bearer token authentication
+/subsystem=elytron-oidc-client/secure-deployment=wildfly-management:add(provider=keycloak-wildfly-infra,client-id=wildfly-management,principal-attribute=preferred_username,bearer-only=true,ssl-required=EXTERNAL)
+/subsystem=elytron-oidc-client/secure-deployment=wildfly-management/credential=secret:add
+/subsystem=elytron-oidc-client/secure-deployment=wildfly-management/credential=secret:write-attribute(name=secret,value=clientpassword)
+
+# (Optional) Enable RBAC where roles are obtained from the identity
+/core-service=management/access=authorization:write-attribute(name=provider,value=rbac)
+/core-service=management/access=authorization:write-attribute(name=use-identity-roles,value=true)
+
+# Create a secure-server to ensure that the WildFly Management Console will redirect to the Keycloak OpenID provider for log in
+/subsystem=elytron-oidc-client/secure-server=wildfly-console:add(provider=keycloak-wildfly-infra,client-id=wildfly-console,public-client=true)
+/subsystem=elytron-oidc-client/secure-server=wildfly-console/credential=secret:add
+/subsystem=elytron-oidc-client/secure-server=wildfly-console/credential=secret:write-attribute(name=secret,value=clientpassword)
 
 run-batch

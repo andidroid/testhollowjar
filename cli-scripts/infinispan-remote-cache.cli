@@ -49,7 +49,7 @@ batch
 
 
 # tls
-# ,"infinispan.client.hotrod.trust_store_file_name" => "client.truststore","infinispan.client.hotrod.trust_store_type" => "JKS","infinispan.client.hotrod.trust_store_password" => "password","infinispan.client.hotrod.key_store_file_name" => "client.keystore","infinispan.client.hotrod.key_store_type" => "JKS","infinispan.client.hotrod.key_store_password" => "password"
+# ,"infinispan.client.hotrod.trust_store_file_name" => "client-truststore.jks","infinispan.client.hotrod.trust_store_type" => "JKS","infinispan.client.hotrod.trust_store_password" => "password","infinispan.client.hotrod.key_store_file_name" => "client-keystore.jks","infinispan.client.hotrod.key_store_type" => "JKS","infinispan.client.hotrod.key_store_password" => "password"
 # ,"infinispan.client.hotrod.marshaller" => "org.infinispan.commons.marshall.UTF8StringMarshaller"
 
 # see https://github.com/infinispan/infinispan/blob/main/client/hotrod/src/main/java/org/infinispan/hotrod/configuration/***Configuration.java

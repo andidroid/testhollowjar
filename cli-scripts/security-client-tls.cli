@@ -3,10 +3,10 @@ batch
 # client ssl context
 
 # Configure Client Keystore
-/subsystem=elytron/key-store=clientKeyStore:add(path=client.keystore,relative-to=jboss.server.config.dir, credential-reference={store=credential-store, alias=password},type=JKS)
+/subsystem=elytron/key-store=clientKeyStore:add(path=client-keystore.jks,relative-to=jboss.server.config.dir, credential-reference={store=credential-store, alias=password},type=JKS)
 /subsystem=elytron/key-manager=clientKeyManager:add(key-store=clientKeyStore,credential-reference={store=credential-store, alias=password},generate-self-signed-certificate-host=localhost)
 # Add the Truststore, TrustManager to a SSL Context configuration
-/subsystem=elytron/key-store=clientTrustStore:add(path=client.truststore,relative-to=jboss.server.config.dir,type=JKS,credential-reference={store=credential-store, alias=password})
+/subsystem=elytron/key-store=clientTrustStore:add(path=client-truststore.jks,relative-to=jboss.server.config.dir,type=JKS,credential-reference={store=credential-store, alias=password})
 /subsystem=elytron/trust-manager=clientTrustManager:add(key-store=clientTrustStore)
 
 /subsystem=elytron/client-ssl-context=clientSSLContext:add(key-manager=clientKeyManager,trust-manager=clientTrustManager)

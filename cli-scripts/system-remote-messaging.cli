@@ -80,13 +80,14 @@ if (result.value == "true") of /system-property=tls.enabled:read-resource
     /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=ssl-context,value=artemisClientSSLContext)
     # 2 way tls security, TODO TLSv1.3 TLS_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256s
     # TODO: ReTest after update to 2.28 java.lang.IllegalArgumentException: Invalid expression TLSv1.3 at enabledProtocols=TLSv1.2,TLSv1.3;  ... , "enabledProtocols" => "TLSv1.2,TLSv1.3"
-                # <param name="key-store-path" value="${jboss.server.config.dir}/client.keystore"/>
+                # <param name="key-store-path" value="${jboss.server.config.dir}/client-keystore.jks"/>
                 # <param name="key-store-password" value="password"/>
-                # <param name="trust-store-path" value="${jboss.server.config.dir}/client.truststore"/>
+                # <param name="trust-store-path" value="${jboss.server.config.dir}/client-truststore.jks"/>
                 # <param name="trust-store-password" value="password"/>
-    /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","verifyHost" => "false", "sslProvider" => "OPENSSL","ssl-enabled" => "true"})
+    /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","wantClientAuth" => "false","needClientAuth" => "false","verifyHost" => "false","trustAll" => "true"})
+    # ,"verifyHost" => "false","needClientAuth" => "false","trustAll" => "true"
     # /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true"})
-    # /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true","enabled-protocols" => "TLSv1.2","enabled-cipher-suites" => "TLS_AES_256_GCM_SHA384","key-store-password" => "password","key-store-path" => "client.keystore","key-store-provider" => "JKS","trust-store-password" => "password","trust-store-path" => "client.truststore","trust-store-provider" => "JKS"})
+    # /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true","enabled-protocols" => "TLSv1.2","enabled-cipher-suites" => "TLS_AES_256_GCM_SHA384","key-store-password" => "password","key-store-path" => "client-keystore.jks","key-store-provider" => "JKS","trust-store-password" => "password","trust-store-path" => "client-truststore.jks","trust-store-provider" => "JKS"})
     /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=messaging-activemq:write-attribute(name=port,value=${jboss.messaging.connector.port,env.ARTEMIS_PORT:61617})
 else
     echo tls disabled
@@ -103,9 +104,9 @@ end-if
 
 
 #                <param name="ssl-enabled" value="true"/>
-#                <param name="key-store-path" value="${jboss.server.config.dir}/client.keystore"/>
+#                <param name="key-store-path" value="${jboss.server.config.dir}/client-keystore.jks"/>
 #                <param name="key-store-password" value="password"/>
-#                <param name="trust-store-path" value="${jboss.server.config.dir}/client.truststore"/>
+#                <param name="trust-store-path" value="${jboss.server.config.dir}/client-truststore.jks"/>
 #                <param name="trust-store-password" value="password"/>
 #                <param name="enabledProtocols" value="TLSv1.3"/>
 #                <param name="enabled-cipher-suites" value="TLS_AES_128_GCM_SHA256"/>
@@ -121,9 +122,9 @@ end-if
 #                <param name="use-nio-global-worker-pool" value="true"/>
 #                <param name="localAddress" value="localhost"/>
 #                <param name="ssl-enabled" value="true"/>
-#                <param name="key-store-path" value="${jboss.server.config.dir}/client.keystore"/>
+#                <param name="key-store-path" value="${jboss.server.config.dir}/client-keystore.jks"/>
 #                <param name="key-store-password" value="password"/>
-#                <param name="trust-store-path" value="${jboss.server.config.dir}/client.truststore"/>
+#                <param name="trust-store-path" value="${jboss.server.config.dir}/client-truststore.jks"/>
 #                <param name="trust-store-password" value="password"/>
 #                <param name="enabledProtocols" value="TLSv1.3"/>
 #               
@@ -145,7 +146,7 @@ end-if
 #    # TODO: ReTest after update to 2.28 java.lang.IllegalArgumentException: Invalid expression TLSv1.3 at enabledProtocols=TLSv1.2,TLSv1.3;  ... , "enabledProtocols" => "TLSv1.2,TLSv1.3"
 #    /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","verifyHost" => "false", "sslProvider" => "OPENSSL","ssl-enabled" => "true"})
 #    # /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true"})
-#    # /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true","enabled-protocols" => "TLSv1.2","enabled-cipher-suites" => "TLS_AES_256_GCM_SHA384","key-store-password" => "password","key-store-path" => "client.keystore","key-store-provider" => "JKS","trust-store-password" => "password","trust-store-path" => "client.truststore","trust-store-provider" => "JKS"})
+#    # /subsystem=messaging-activemq/remote-connector=artemis:write-attribute(name=params,value={"use-nio" => "true","use-nio-global-worker-pool" => "true","ssl-enabled" => "true","enabled-protocols" => "TLSv1.2","enabled-cipher-suites" => "TLS_AES_256_GCM_SHA384","key-store-password" => "password","key-store-path" => "client-keystore.jks","key-store-provider" => "JKS","trust-store-password" => "password","trust-store-path" => "client-truststore.jks","trust-store-provider" => "JKS"})
 #  
 #				-->
 #            </remote-connector>
@@ -157,3 +158,7 @@ end-if
 #            <external-jms-queue name="WebGISQueue" entries="java:global/remoteContext/WebGISQueue"/>
 #            <external-jms-topic name="TestTopic" entries="java:global/remoteContext/TestTopic"/>
 #        </subsystem>
+
+# TODO switch from password to credential store
+# /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:undefine-attribute(name=password)
+# /subsystem=messaging-activemq/pooled-connection-factory=activemq-ra:write-attribute(name=credential-reference,value={"store" => "store","alias" => "artemis","clear-text" => "password","type" => "password"})

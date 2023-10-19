@@ -2,7 +2,7 @@ https://www.mastertheboss.com/keycloak/keycloak-oauth2-example-with-rest-applica
 
 ## Authenticate with the Admin Server
 
-./kcadm.sh config credentials --server http://localhost:9080 --realm master --user admin --password admin
+./kcadm.sh config credentials --server http://localhost:9180 --realm master --user admin --password admin
 
 ## Create Realm testrealm
 
@@ -22,7 +22,7 @@ https://www.mastertheboss.com/keycloak/keycloak-oauth2-example-with-rest-applica
 
 ## Create Client
 
-./kcadm.sh create clients -r testrealm -s clientId=testwar -s bearerOnly="false" -s "redirectUris=[\"http://localhost:8080/*\"]" -s enabled=true -s directAccessGrantsEnabled=true -s clientAuthenticatorType=client-secret -s secret=clientpassword
+./kcadm.sh create clients -r testrealm -s clientId=testwar -s bearerOnly="false" -s "redirectUris=[\"http://localhost:8080/*\,\"https://localhost:8443/*\"]" -s enabled=true -s directAccessGrantsEnabled=true -s clientAuthenticatorType=client-secret -s secret=clientpassword
 
 ## Create Role test
 
@@ -69,3 +69,29 @@ https://www.mastertheboss.com/keycloak/keycloak-oauth2-example-with-rest-applica
 ./kcadm.sh add-roles --uusername admin --rolename amq -r artemisrealm
 ./kcadm.sh add-roles --uusername artemis --rolename amq -r artemisrealm
 ./kcadm.sh add-roles --uusername viewer --rolename view -r artemisrealm
+
+# Wildfly Admin Console HAL
+
+./kcadm.sh create realms -s realm=wildfly-infra -s enabled=true -o
+
+./kcadm.sh create clients -r wildfly-infra -s clientId=wildfly-console -s bearerOnly="false" -s "redirectUris=[\"http://localhost:9990/console/*\",\"https://localhost:9993/console/*\"]" -s enabled=true -s directAccessGrantsEnabled=true -s clientAuthenticatorType=client-secret -s secret=clientpassword
+
+./kcadm.sh create clients -r wildfly-infra -s clientId=wildfly-management -s bearerOnly="true" -s enabled=true -s directAccessGrantsEnabled=false -s clientAuthenticatorType=client-secret -s secret=clientpassword
+
+./kcadm.sh create roles -r wildfly-infra -s name=Administrator
+./kcadm.sh create roles -r wildfly-infra -s name=SuperUser
+
+./kcadm.sh create users -r wildfly-infra -s username=admin -s enabled=true
+./kcadm.sh set-password -r wildfly-infra --username admin --new-password admin
+
+./kcadm.sh add-roles --uusername admin --rolename Administrator -r wildfly-infra
+./kcadm.sh add-roles --uusername admin --rolename SuperUser -r wildfly-infra
+
+# Application Realm WebGISRealm
+
+./kcadm.sh create realms -s realm=webgisrealm -s enabled=true -o
+
+./kcadm.sh create users -r webgisrealm -s username=test -s enabled=true
+./kcadm.sh set-password -r webgisrealm --username test --new-password test
+
+./kcadm.sh create clients -r webgisrealm -s clientId=webgisclient -s bearerOnly="true" -s enabled=true -s directAccessGrantsEnabled=false -s clientAuthenticatorType=client-secret -s secret=clientpassword

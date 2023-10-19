@@ -27,6 +27,10 @@ batch
 
 # /core-service=management/management-interface=http-interface:add(console-enabled=true, secure-socket-binding=management-https, ssl-context=halSSLContext, http-authentication-factory=management-http-authenticationFs)
 
+
+
+
+
 run-batch
 
 

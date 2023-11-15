@@ -33,7 +33,15 @@ batch
 
 
 # Audit Logging
+# @see https://wildfly-security.github.io/wildfly-elytron/blog/specify-file-audit-log-encoding/
+# /subsystem=elytron/custom-security-event-listener=test-audit-listener:add(class-name=.config.TestCustomSecurityEventListener,module=io.smallrye.config.ext)
+# set audit logger to security domains
+# /subsystem=elytron/security-domain=ApplicationDomain:write-attribute(name=security-event-listener , value="test-audit-listener")
+# /subsystem=elytron/security-domain=ManagementDomain:write-attribute(name=security-event-listener , value="test-audit-listener")
+# /subsystem=elytron/security-domain=managementSD:write-attribute(name=security-event-listener , value="test-audit-listener")
+# /subsystem=elytron/security-domain=applicationFsSecurityDomain:write-attribute(name=security-event-listener , value="test-audit-listener")
 
-# /subsystem=elytron/custom-security-event-listener=TestCustomSecurityEventListener:add(class-name=me.andidroid.config.TestCustomSecurityEventListener,module=me.andidroid.config.ext)
+# TODO set aggregate-security-event-listener
+
 
 run-batch

@@ -80,7 +80,7 @@
     <jkube.version>1.11.0</jkube.version>
     <jib.version>3.4.0</jib.version>
     <flyway.version>10.0.0</flyway.version>
-    <postgres.version>42.6.0</postgres.version>
+    <postgres.version>42.7.0</postgres.version>
     <artemis.version>2.31.0</artemis.version>
   </properties>
 

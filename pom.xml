@@ -423,6 +423,7 @@
             </cli-session>
             <cli-session>
               <properties-file>cli-scripts/cli.properties</properties-file>
+              <resolve-expressions>false</resolve-expressions>
               <script-files>
                 <!-- <script>cli-scripts/system-property.cli</script> -->
                 <script>cli-scripts/security-credentialstore.cli</script>

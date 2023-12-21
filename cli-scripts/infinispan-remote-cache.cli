@@ -10,15 +10,7 @@ batch
 /subsystem=infinispan/remote-cache-container=testremotecachecontainer:add(default-remote-cluster=infinispan-cluster)
 /subsystem=infinispan/remote-cache-container=testremotecachecontainer/remote-cluster=infinispan-cluster:add(socket-bindings=[infinispan-hot-rod])
 
-# ssl, two way tsl
-# use client tls config clientKeyManager and clientTrustManager from security-client-tls.cli
-/subsystem=elytron/client-ssl-context=infinispanClientSSLContext:add(key-manager=clientKeyManager,trust-manager=clientTrustManager)
-/subsystem=elytron/client-ssl-context=infinispanClientSSLContext:write-attribute(name=protocols,value=[TLSv1.2,TLSv1.3])
-/subsystem=elytron/client-ssl-context=infinispanClientSSLContext:write-attribute(name=cipher-suite-names,value=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256)
 
-# 
-/subsystem=infinispan/remote-cache-container=testremotecachecontainer/component=security:add()
-/subsystem=infinispan/remote-cache-container=testremotecachecontainer/component=security:write-attribute(name=ssl-context,value=infinispanClientSSLContext)
 # 
 /subsystem=infinispan/remote-cache-container=testremotecachecontainer:write-attribute(name=statistics-enabled,value=true)
 # properties for hot rod client
@@ -48,8 +40,6 @@ batch
 # ,"infinispan.client.hotrod.marshaller" => "org.infinispan.commons.marshall.UTF8StringMarshaller"
 
 
-# tls
-# ,"infinispan.client.hotrod.trust_store_file_name" => "client-truststore.jks","infinispan.client.hotrod.trust_store_type" => "JKS","infinispan.client.hotrod.trust_store_password" => "password","infinispan.client.hotrod.key_store_file_name" => "client-keystore.jks","infinispan.client.hotrod.key_store_type" => "JKS","infinispan.client.hotrod.key_store_password" => "password"
 # ,"infinispan.client.hotrod.marshaller" => "org.infinispan.commons.marshall.UTF8StringMarshaller"
 
 # see https://github.com/infinispan/infinispan/blob/main/client/hotrod/src/main/java/org/infinispan/hotrod/configuration/***Configuration.java
@@ -63,3 +53,23 @@ batch
 #infinispan.client.hotrod.statistics = true
 
 run-batch
+
+if (result.value == "true") of /system-property=tls.enabled:read-resource
+
+    # ssl, two way tsl
+    # use client tls config clientKeyManager and clientTrustManager from security-client-tls.cli
+    /subsystem=elytron/client-ssl-context=infinispanClientSSLContext:add(key-manager=clientKeyManager,trust-manager=clientTrustManager)
+    /subsystem=elytron/client-ssl-context=infinispanClientSSLContext:write-attribute(name=protocols,value=[TLSv1.2,TLSv1.3])
+    /subsystem=elytron/client-ssl-context=infinispanClientSSLContext:write-attribute(name=cipher-suite-names,value=TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256)
+
+    # 
+    /subsystem=infinispan/remote-cache-container=testremotecachecontainer/component=security:add()
+    /subsystem=infinispan/remote-cache-container=testremotecachecontainer/component=security:write-attribute(name=ssl-context,value=infinispanClientSSLContext)
+
+    # tls
+    # ,"infinispan.client.hotrod.trust_store_file_name" => "client-truststore.jks","infinispan.client.hotrod.trust_store_type" => "JKS","infinispan.client.hotrod.trust_store_password" => "password","infinispan.client.hotrod.key_store_file_name" => "client-keystore.jks","infinispan.client.hotrod.key_store_type" => "JKS","infinispan.client.hotrod.key_store_password" => "password"
+
+
+else
+    echo tls disabled
+end-if

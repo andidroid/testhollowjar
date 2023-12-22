@@ -188,6 +188,12 @@
         <version>${wildfly-grpc-feature-pack.version}</version>
         <type>pom</type>
       </dependency>
+
+      <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-utils</artifactId>
+        <version>3.5.1</version>
+    </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>

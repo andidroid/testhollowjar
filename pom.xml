@@ -87,6 +87,7 @@
 
   <!-- External non standard repositories -->
   <repositories>
+    <!--
       <repository>
       <id>github</id>
       <url>https://maven.pkg.github.com/andidroid</url>
@@ -94,6 +95,7 @@
             <enabled>true</enabled>
           </snapshots>
     </repository>
+    -->
     <repository>
       <id>githubtest</id>
       <url>https://maven.pkg.github.com/andidroid/test</url>

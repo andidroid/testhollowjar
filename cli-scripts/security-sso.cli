@@ -18,7 +18,14 @@ batch
 # Configure an http-authentication-factory:
 /subsystem=elytron/http-authentication-factory=applicationFs-http-authentication:add(http-server-mechanism-factory=global,security-domain=applicationFsSecurityDomain,mechanism-configurations=[{mechanism-name=BASIC,mechanism-realm-configurations=[{realm-name=applicationFsRealm}]}])
 
-/subsystem=elytron/http-authentication-factory=application-http-authentication:add(http-server-mechanism-factory=global,security-domain=ApplicationDomain,mechanism-configurations=[{mechanism-name=DIGEST,mechanism-realm-configurations=[{realm-name=ApplicationRealm}]}])
+# remove old application-http-authentication
+# subsystem=elytron/http-authentication-factory=application-http-authentication:remove()
+# TODO Basic or Digest needed? default is Basic
+# geht nicht da schon vorhanden: /subsystem=elytron/http-authentication-factory=application-http-authentication:add(http-server-mechanism-factory=global,security-domain=ApplicationDomain,mechanism-configurations=[{mechanism-name=DIGEST,mechanism-realm-configurations=[{realm-name=ApplicationRealm}]}])
+# manuelle Änderung der Werte auf DIGEST
+# /subsystem=elytron/http-authentication-factory=application-http-authentication:list-remove(name=mechanism-configurations,index=0)
+# /subsystem=elytron/http-authentication-factory=application-http-authentication:list-add(name=mechanism-configurations,value={"mechanism-name" => "DIGEST"})
+# /subsystem=elytron/http-authentication-factory=application-http-authentication:list-add(name=mechanism-configurations[0].mechanism-realm-configurations,value={"realm-name" => "ApplicationRealm"})
 
 
 /subsystem=undertow/application-security-domain=applicationFsSecurityDomain:add(http-authentication-factory=applicationFs-http-authentication)

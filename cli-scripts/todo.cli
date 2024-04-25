@@ -122,3 +122,8 @@ infinispan.client.hotrod.request_balancing_strategy = org.infinispan.client.hotr
 infinispan.client.hotrod.key_size_estimate = 64
 infinispan.client.hotrod.value_size_estimate = 512
 infinispan.client.hotrod.force_return_values = false
+
+
+
+# TODO: custom error pages, https://www.mastertheboss.com/web/jboss-web-server/how-to-configure-web-applications-request-limits-in-wildfly/
+https://www.mastertheboss.com/jboss-frameworks/resteasy/how-to-handle-exceptions-in-jax-rs-applications/

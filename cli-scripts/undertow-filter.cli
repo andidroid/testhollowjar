@@ -23,6 +23,19 @@ batch
 /subsystem=undertow/configuration=filter/response-header=hsts-header:add(header-name="Strict-Transport-Security",header-value="max-age=31536000;")
 /subsystem=undertow/server=default-server/host=default-host/filter-ref=hsts-header:add
 
+
+# Configure Rate Limiting, Request Limits, max concurrent requests
+# https://www.mastertheboss.com/web/jboss-web-server/how-to-configure-web-applications-request-limits-in-wildfly/
+/subsystem=undertow/configuration=filter/request-limit=rslimit:add(max-concurrent-requests=10, queue-size=20)
+/subsystem=undertow/server=default-server/host=default-host/filter-ref=rslimit:add()
+# configure specific url for filter
+# /subsystem=undertow/server=default-server/host=default-host/filter-ref=rslimit:write-attribute(name=predicate,value="path-prefix('/rest-demo/')")
+
+# Set SameSite attribute in Http Cookie against cross-site request (CSRF) a
+# https://www.mastertheboss.com/web/jboss-web-server/how-to-set-the-samesite-attribute-in-java-web-applications/
+/subsystem=undertow/configuration=filter/expression-filter=samesite-cookie-filter:add(expression=samesite-cookie(mode\=strict))
+/subsystem=undertow/server=default-server/host=default-host/filter-ref=samesite-cookie-filter:add()
+
 # TODO
 # How to redirect HTTP to HTTPS in WildFly
 # http://www.mastertheboss.com/web/jboss-web-server/how-to-redirect-http-to-https-in-wildfly/
@@ -42,4 +55,8 @@ batch
 
 # /subsystem=undertow/configuration=handler/file=test:add(path=/)
 # /subsystem=undertow/server=default-server/host=default-host/location=test:add(handler=test)
+
+/subsystem=undertow/configuration=handler/file=startpage-handler:add(path="${jboss.home.dir}/standalone/startpage")
+/subsystem=undertow/server=default-server/host=default-host/location="/":add(handler=startpage-handler)
+
 run-batch

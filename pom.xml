@@ -80,7 +80,7 @@
     <wildfly-jar-maven-plugin.version>11.0.1.Final</wildfly-jar-maven-plugin.version>
     <jkube.version>1.15.0</jkube.version>
     <jib.version>3.4.2</jib.version>
-    <flyway.version>10.11.1</flyway.version>
+    <flyway.version>10.12.0</flyway.version>
     <postgres.version>42.7.3</postgres.version>
     <artemis.version>2.32.0</artemis.version>
   </properties>

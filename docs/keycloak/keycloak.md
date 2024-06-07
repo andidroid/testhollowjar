@@ -100,7 +100,23 @@
 ./kcadm.sh create users -r webgisrealm -s username=test -s enabled=true
 ./kcadm.sh set-password -r webgisrealm --username test --new-password test
 
-./kcadm.sh create clients -r webgisrealm -s clientId=webgisclient -s bearerOnly="true" -s enabled=true -s directAccessGrantsEnabled=false -s clientAuthenticatorType=client-secret -s secret=clientpassword
+./kcadm.sh create users -r webgisrealm -s username=admin -s enabled=true
+./kcadm.sh set-password -r webgisrealm --username admin --new-password admin
+
+./kcadm.sh create roles -r webgisrealm -s name=test
+./kcadm.sh create roles -r webgisrealm -s name=admin
+./kcadm.sh create roles -r webgisrealm -s name=user
+
+./kcadm.sh add-roles --uusername test --rolename test -r webgisrealm
+./kcadm.sh add-roles --uusername test --rolename user -r webgisrealm
+
+./kcadm.sh add-roles --uusername admin --rolename test -r webgisrealm
+./kcadm.sh add-roles --uusername admin --rolename user -r webgisrealm
+./kcadm.sh add-roles --uusername admin --rolename admin -r webgisrealm
+
+./kcadm.sh create clients -r webgisrealm -s clientId=webgisclient -s bearerOnly="true" -s enabled=true -s directAccessGrantsEnabled=false -s clientAuthenticatorType=client-secret -s secret=clientpassword -s publicClient="true" -s "redirectUris=[\"http://localhost:8080/*\" , \"https://localhost:8443/*\"]"
+
+./kcadm.sh create clients -r webgisrealm -s clientId=webgisauthzclient -s bearerOnly="false" -s enabled=true -s clientAuthenticatorType=client-secret -s secret=clientpassword -s authorizationServicesEnabled=true -s serviceAccountsEnabled=true
 
 # kerberos
 
@@ -118,7 +134,4 @@ kcadm.sh create user-storage/b7c63d02-b62a-4fc1-977c-947d6a09e1ea/sync?action=tr
 
 # adding group mapper
 
-
-
 $ kcadm.sh create components -r webgisrealm -s name=group-ldap-mapper -s providerId=group-ldap-mapper -s providerType=org.keycloak.storage.ldap.mappers.LDAPStorageMapper -s parentId=4fe9e1b9-5cca-4af9-9230-e09625bb5412 -s 'config."groups.dn"=[]' -s 'config."group.name.ldap.attribute"=["cn"]' -s 'config."group.object.classes"=["groupOfNames"]' -s 'config."preserve.group.inheritance"=["true"]' -s 'config."membership.ldap.attribute"=["member"]' -s 'config."membership.attribute.type"=["DN"]' -s 'config."groups.ldap.filter"=[]' -s 'config.mode=["LDAP_ONLY"]' -s 'config."user.roles.retrieve.strategy"=["LOAD_GROUPS_BY_MEMBER_ATTRIBUTE"]' -s 'config."mapped.group.attributes"=["admins-group"]' -s 'config."drop.non.existing.groups.during.sync"=["false"]' -s 'config.roles=["admins"]' -s 'config.groups=["admins-group"]' -s 'config.group=[]' -s 'config.preserve=["true"]' -s 'config.membership=["member"]'
-

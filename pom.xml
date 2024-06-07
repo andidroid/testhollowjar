@@ -5,10 +5,10 @@
   <parent>
     <groupId>me.andidroid</groupId>
     <artifactId>test</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.8</version>
   </parent>
   <artifactId>testhollowjar</artifactId>
-  <version>0.6.0-SNAPSHOT</version>
+  <version>0.6.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>testhollowjar</name>
@@ -358,10 +358,13 @@
             <layer>elytron-oidc-client</layer>
             <layer>jpa</layer>
             <layer>hibernate-search</layer>
+            <layer>mail</layer>
+            <layer>batch-jberet</layer>
+            
             
             <layer>microprofile-reactive-messaging</layer>
             <layer>microprofile-reactive-messaging-amqp</layer>
-            <layer>microprofile-reactive-messaging-kafka</layer>
+            <!-- <layer>microprofile-reactive-messaging-kafka</layer> -->
 
             <layer>postgresql-tracing-datasource</layer>
             <layer>postgresql-tracing-driver</layer>
@@ -399,6 +402,7 @@
             <layer>config-ext</layer>
 
             <layer>bucket4j</layer>
+            <layer>jsonpath</layer>
 <!--
             <layer>mvc-krazo</layer>
             <layer>mvc-krazo-jinja2</layer>
@@ -443,10 +447,12 @@
                 <script>cli-scripts/security-oidc.cli</script>
                 -->
                 <script>cli-scripts/security-sso.cli</script>
+                <script>cli-scripts/security-auditlog.cli</script>
                 <script>cli-scripts/undertow-filter.cli</script>
                 <script>cli-scripts/system-telemetry.cli</script>
                 <script>cli-scripts/system-remote-messaging.cli</script>
                 <script>cli-scripts/infinispan-remote-cache.cli</script>
+                <script>cli-scripts/system-mail.cli</script>
 
                 <script>cli-scripts/global-modules.cli</script>
                 <script>cli-scripts/cleanup.cli</script>
@@ -459,6 +465,7 @@
           </extra-server-content-dirs>
           <plugin-options>
             <jboss-fork-embedded>${plugin.fork.embedded}</jboss-fork-embedded>
+            <!-- <stability-level>experimental</stability-level> -->
             <!-- <jboss-overridden-artifacts>io.netty:netty-tcnative-boringssl-static:2.0.59.Final:windows-x86_64:jar</jboss-overridden-artifacts> -->
           </plugin-options>
           <!-- <cloud>

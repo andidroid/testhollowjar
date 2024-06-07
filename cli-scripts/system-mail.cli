@@ -1,12 +1,30 @@
 
+# https://github.com/wildfly/quickstart/blob/main/mail/configure-mail-session.cli
+# https://www.mastertheboss.com/jbossas/jboss-configuration/jboss-mail-service-configuration/
+
 batch
 
-/subsystem=mail/mail-session=default/server=smtp/:write-attribute(name=username,value=${mail.username,env.MAIL_USERNAME:test@andidroid.io})
-/subsystem=mail/mail-session=default/server=smtp/:write-attribute(name=password,value=${mail.password,env.MAIL_PASSWORD:test})
-/subsystem=mail/mail-session=default/server=smtp/:write-attribute(name=tls,value=true)
-/subsystem=mail/mail-session=default:write-attribute(name=from,value=${mail.username,env.MAIL_USERNAME:test@andidroid.io})
+# /subsystem=mail/mail-session=default/server=smtp/:write-attribute(name=username,value=${mail.username,env.MAIL_USERNAME:test@andidroid.io})
+# /subsystem=mail/mail-session=default/server=smtp/:write-attribute(name=password,value=${mail.password,env.MAIL_PASSWORD:test})
+# /subsystem=mail/mail-session=default/server=smtp/:write-attribute(name=tls,value=true)
+# /subsystem=mail/mail-session=default:write-attribute(name=from,value=${mail.username,env.MAIL_USERNAME:test@andidroid.io})
 
 /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=mail-smtp/:write-attribute(name=host,value=${mail.host,env.MAIL_HOST:localhost})
-/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=mail-smtp/:write-attribute(name=port,value=${mail.port,env.MAIL_PORT:587})
+# /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=mail-smtp/:write-attribute(name=port,value=${mail.port,env.MAIL_PORT:587})
+
+# Create the custom testMailer mail session
+/subsystem=mail/mail-session=testMailer:add(jndi-name=java:jboss/mail/testMailer,debug=true)
+
+# Configure the custom SMTP, POP3, and IMAP socket binding groups
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=apache-james-smtp:add(host=localhost,port=10025)
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=apache-james-pop3:add(host=localhost,port=10110)
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=apache-james-imap:add(host=localhost,port=10143)
+
+# Add the custom socket binding groups to the custom testMailer mail session
+/subsystem=mail/mail-session=testMailer/server=smtp:add(outbound-socket-binding-ref=apache-james-smtp,tls=true,username="mail@james.local",credential-reference={store=credential-store, alias=mail})
+/subsystem=mail/mail-session=testMailer/server=pop3:add(outbound-socket-binding-ref=apache-james-pop3,tls=true)
+/subsystem=mail/mail-session=testMailer/server=imap:add(outbound-socket-binding-ref=apache-james-imap,tls=true,username="mail@james.local",credential-reference={store=credential-store, alias=mail})
+
+/subsystem=mail/mail-session=testMailer:write-attribute(name=from,value=${mail.username,env.MAIL_USERNAME:test@andidroid.io})
 
 run-batch

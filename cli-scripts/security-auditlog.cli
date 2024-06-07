@@ -1,0 +1,30 @@
+batch
+
+# Audit Logging
+# @see https://wildfly-security.github.io/wildfly-elytron/blog/specify-file-audit-log-encoding/
+/subsystem=elytron/custom-security-event-listener=test-audit-listener:add(class-name=config.TestCustomSecurityEventListener,module=io.smallrye.config.ext)
+# set audit logger to security domains
+# /subsystem=elytron/security-domain=ApplicationDomain:write-attribute(name=security-event-listener , value="test-audit-listener")
+# /subsystem=elytron/security-domain=ManagementDomain:write-attribute(name=security-event-listener , value="test-audit-listener")
+# /subsystem=elytron/security-domain=managementSD:write-attribute(name=security-event-listener , value="test-audit-listener")
+# /subsystem=elytron/security-domain=applicationFsSecurityDomain:write-attribute(name=security-event-listener , value="test-audit-listener")
+
+# TODO set aggregate-security-event-listener
+
+# set syslog audit logging, default TCP connection with SIMPLE Format and rfc5424 Protocol
+/subsystem=elytron/syslog-audit-log=SyslogAuditLogging:add(host-name=wildfly-${jboss.node.name},port=54526,server-address=localhost,reconnect-attempts=1)
+# /subsystem=elytron/syslog-audit-log=SyslogAuditLogging:undefine-attribute(name=ssl-context)
+
+# remove file log for audit
+/subsystem=elytron/file-audit-log=local-audit:remove
+
+# create aggregate security event listener with syslog and custom ebent listener
+/subsystem=elytron/aggregate-security-event-listener=aggregate-audit-log:add(security-event-listeners=["SyslogAuditLogging","test-audit-listener"])
+# add aggregate to security domains
+# TODO need to be done after security-sso.cli -> applicationFsSecurityDomain is created there
+# /subsystem=elytron/security-domain=ApplicationDomain:write-attribute(name=security-event-listener,value=aggregate-audit-log)
+# /subsystem=elytron/security-domain=applicationFsSecurityDomain:write-attribute(name=security-event-listener,value=aggregate-audit-log)
+# /subsystem=elytron/security-domain=ManagementDomain:write-attribute(name=security-event-listener,value=aggregate-audit-log)
+# /subsystem=elytron/security-domain=managementSD:write-attribute(name=security-event-listener,value=aggregate-audit-log)
+
+run-batch

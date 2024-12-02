@@ -1,5 +1,10 @@
 batch
 
+/subsystem=undertow/servlet-container=default:write-attribute(name=default-encoding,value=UTF-8)
+
+/subsystem=undertow/servlet-container=default/setting=session-cookie:add(http-only=true,secure=true)
+/subsystem=undertow/servlet-container=default/setting=affinity-cookie:add(http-only=true,secure=true)
+
 # http://www.mastertheboss.com/jboss-web/jbosswebserver/how-to-configure-cors-on-wildfly
 # add filter for Access-Control-Allow header
 /subsystem=undertow/server=default-server/host=default-host/filter-ref="Access-Control-Allow-Origin":add()

@@ -5,10 +5,10 @@
   <parent>
     <groupId>me.andidroid</groupId>
     <artifactId>test</artifactId>
-    <version>1.0.9</version>
+    <version>1.0.10</version>
   </parent>
   <artifactId>testhollowjar</artifactId>
-  <version>0.7.0-SNAPSHOT</version>
+  <version>0.35.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>testhollowjar</name>
@@ -52,7 +52,7 @@
 
   <properties>
     <enforcer.skip>true</enforcer.skip>
-    <java.version>17</java.version>
+    <java.version>21</java.version>
     <javaee.version>10.0.0</javaee.version>
     <microprofile.version>7.0</microprofile.version>
 
@@ -61,25 +61,25 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
 
-    <mockito.version>5.14.2</mockito.version>
+    <mockito.version>5.15.2</mockito.version>
     <rest-assured.version>5.5.0</rest-assured.version>
     <microshed.version>0.9.2</microshed.version>
     <testcontainers.version>1.20.4</testcontainers.version>
     <mockserver-client-java.version>5.15.0</mockserver-client-java.version>
     <wildfly.version>35.0.0.Final</wildfly.version>
-    <test-feature-pack.version>0.34.0</test-feature-pack.version>
+    <test-feature-pack.version>0.35.0</test-feature-pack.version>
     <mvc-krazo-feature-pack.version>0.0.3-SNAPSHOT</mvc-krazo-feature-pack.version>
     <wildfly-cloud-galleon-pack.version>7.0.2.Final</wildfly-cloud-galleon-pack.version>
     <wildfly-grpc-feature-pack.version>0.1.11.Final</wildfly-grpc-feature-pack.version>
-    <wildfly-datasources-galleon-pack.version>9.0.0.Final</wildfly-datasources-galleon-pack.version>
+    <wildfly-datasources-galleon-pack.version>9.1.0.Final</wildfly-datasources-galleon-pack.version>
     <wildfly-graphql-feature-pack.version>2.4.2.Final</wildfly-graphql-feature-pack.version>
     <wildfly-myfaces-feature-pack.version>2.0.0.Final</wildfly-myfaces-feature-pack.version>
 
-    <wildfly-maven-plugin.version>5.0.1.Final</wildfly-maven-plugin.version>
+    <wildfly-maven-plugin.version>5.1.0.Final</wildfly-maven-plugin.version>
     <wildfly-jar-maven-plugin.version>11.0.2.Final</wildfly-jar-maven-plugin.version>
     <jkube.version>1.15.0</jkube.version>
     <jib.version>3.4.4</jib.version>
-    <flyway.version>11.0.1</flyway.version>
+    <flyway.version>11.1.1</flyway.version>
     <postgres.version>42.7.4</postgres.version>
   </properties>
 
@@ -435,8 +435,8 @@
           <jboss-fork-embedded>true</jboss-fork-embedded>
         </galleon-options> -->
         <galleon-options>
-            <!-- Provision a WildFly server that includes features and modules at the preview stability level - preview   -->
-            <stability-level>experimental</stability-level>
+            <!-- Provision a WildFly server that includes features and modules at the preview stability level - preview experimental  -->
+            <stability-level>community</stability-level>
             <!-- Fork the Galleon provisioning in a separate process -->
             <jboss-fork-embedded>true</jboss-fork-embedded>
         </galleon-options>
@@ -464,6 +464,7 @@
         <artifactId>wildfly-jar-maven-plugin</artifactId>
         <version>${wildfly-jar-maven-plugin.version}</version>
         <configuration>
+          <skip>true</skip>
           <feature-packs>
                 <!-- <feature-pack>
                     <location>wildfly@maven(org.jboss.universe:community-universe)#${wildfly.version}</location>

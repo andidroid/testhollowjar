@@ -66,7 +66,7 @@
     <microshed.version>0.9.2</microshed.version>
     <testcontainers.version>1.20.6</testcontainers.version>
     <mockserver-client-java.version>5.15.0</mockserver-client-java.version>
-    <wildfly.version>35.0.1.Final</wildfly.version>
+    <wildfly.version>36.0.0.Final</wildfly.version>
     <test-feature-pack.version>0.35.0</test-feature-pack.version>
     <mvc-krazo-feature-pack.version>0.0.3-SNAPSHOT</mvc-krazo-feature-pack.version>
     <wildfly-cloud-galleon-pack.version>7.0.2.Final</wildfly-cloud-galleon-pack.version>

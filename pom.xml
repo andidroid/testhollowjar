@@ -79,7 +79,7 @@
 
     <wildfly-maven-plugin.version>5.1.4.Final</wildfly-maven-plugin.version>
     <wildfly-jar-maven-plugin.version>12.0.0.Final</wildfly-jar-maven-plugin.version>
-    <galleon.version>6.0.6.Final</galleon.version>
+    <galleon.version>6.1.0.Final</galleon.version>
 		<wildfly-galleon-plugin.version>7.4.0.Final</wildfly-galleon-plugin.version>
 
     <jkube.version>1.15.0</jkube.version>

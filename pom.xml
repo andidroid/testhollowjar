@@ -83,7 +83,7 @@
 		<wildfly-galleon-plugin.version>8.0.2.Final</wildfly-galleon-plugin.version>
 
     <jkube.version>1.15.0</jkube.version>
-    <jib.version>3.4.6</jib.version>
+    <jib.version>3.5.0</jib.version>
     <flyway.version>11.17.0</flyway.version>
     <postgres.version>42.7.8</postgres.version>
   </properties>

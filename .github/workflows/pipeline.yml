@@ -68,7 +68,7 @@ jobs:
     steps:
       - name: Git Checkout
         uses: actions/checkout@v5
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           name: testhollowjar-artifact
           path: target
@@ -104,7 +104,7 @@ jobs:
     steps:
       - name: Git Checkout
         uses: actions/checkout@v5
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           name: testhollowjar-artifact
           path: target/testhollowjar.jar

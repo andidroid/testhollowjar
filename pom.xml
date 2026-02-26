@@ -61,12 +61,6 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
 
-    <mockito.version>5.21.0</mockito.version>
-    <rest-assured.version>6.0.0</rest-assured.version>
-
-    <microshed.version>0.9.2</microshed.version>
-    <testcontainers.version>1.21.4</testcontainers.version>
-    <mockserver-client-java.version>5.15.0</mockserver-client-java.version>
     <wildfly.version>39.0.1.Final</wildfly.version>
     <test-feature-pack.version>0.36.0</test-feature-pack.version>
     <mvc-krazo-feature-pack.version>0.0.3-SNAPSHOT</mvc-krazo-feature-pack.version>
@@ -80,10 +74,17 @@
     <wildfly-maven-plugin.version>5.1.5.Final</wildfly-maven-plugin.version>
     <wildfly-jar-maven-plugin.version>12.0.0.Final</wildfly-jar-maven-plugin.version>
     <galleon.version>7.0.3.Final</galleon.version>
-		<wildfly-galleon-plugin.version>8.1.0.Final</wildfly-galleon-plugin.version>
+	<wildfly-galleon-plugin.version>8.1.0.Final</wildfly-galleon-plugin.version>
 
     <jkube.version>1.15.0</jkube.version>
     <jib.version>3.5.1</jib.version>
+
+
+    <mockito.version>5.21.0</mockito.version>
+    <rest-assured.version>6.0.0</rest-assured.version>
+    <microshed.version>0.9.2</microshed.version>
+    <testcontainers.version>1.21.4</testcontainers.version>
+    <mockserver-client-java.version>5.15.0</mockserver-client-java.version>
     <flyway.version>12.0.2</flyway.version>
     <postgres.version>42.7.10</postgres.version>
   </properties>
@@ -156,21 +157,23 @@
           <type>pom</type>
           <scope>provided</scope>
       </dependency>
-      
+
+	  <!--
       <dependency>
         <groupId>io.rest-assured</groupId>
         <artifactId>rest-assured</artifactId>
         <version>${rest-assured.version}</version>
         <scope>test</scope>
       </dependency>
-
+      -->
       <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+	  <!--
       <dependency>
         <groupId>org.postgresql</groupId>
         <artifactId>postgresql</artifactId>
         <version>${postgres.version}</version>
       </dependency>
-
+      -->
       <dependency>
         <groupId>me.andidroid</groupId>
         <artifactId>test-feature-pack</artifactId>
@@ -206,13 +209,12 @@
       <artifactId>jakarta.jakartaee-api</artifactId>
     </dependency>
 
+	<!--
     <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
       <scope>test</scope>
     </dependency>
-
-
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>testcontainers</artifactId>
@@ -225,8 +227,8 @@
       <version>${microshed.version}</version>
       <scope>test</scope>
     </dependency>
-    <!--
-  -->
+	-->
+
     <!--
     <dependency>
       <groupId>org.microshed</groupId>
@@ -235,6 +237,7 @@
       <scope>test</scope>
     </dependency>
    -->
+	<!--
     <dependency>
       <groupId>org.microshed</groupId>
       <artifactId>microshed-testing-wildfly</artifactId>
@@ -266,7 +269,6 @@
       <version>2.0.17</version>
       <scope>test</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
@@ -284,7 +286,7 @@
       <artifactId>postgresql</artifactId>
       <scope>test</scope>
     </dependency>
-
+    -->
   </dependencies>
 
   <build>

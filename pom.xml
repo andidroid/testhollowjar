@@ -111,6 +111,7 @@
       <id>githubtest-feature-pack</id>
       <url>https://maven.pkg.github.com/andidroid/test-feature-pack</url>
     </repository>
+    <!--
     <repository>
       <id>githubwildfly-mvc-krazo-feature-pack</id>
       <url>https://maven.pkg.github.com/andidroid/wildfly-mvc-krazo-feature-pack</url>
@@ -118,6 +119,7 @@
             <enabled>true</enabled>
           </snapshots>
     </repository>
+    -->
     <repository>
       <id>JBossEA</id>
       <url>https://repository.jboss.org/nexus/content/repositories/ea/</url>
@@ -375,6 +377,8 @@
 
             <layer>spatial</layer>
             <layer>lucene-spatial</layer>
+            <layer>jackson-ext</layer>
+
             <layer>remote-activemq</layer>
             <layer>web-console</layer>
 
@@ -568,6 +572,9 @@
             <!-- <layer>kafka-tracing</layer> -->
             <layer>spatial</layer>
             <layer>lucene-spatial</layer>
+
+            <layer>jackson-ext</layer>
+
             <!-- <layer>jms-tracing</layer> -->
 
             <!-- <layer>messaging-activemq</layer> -->

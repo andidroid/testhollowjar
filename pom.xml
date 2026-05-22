@@ -61,7 +61,7 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
 
-    <wildfly.version>40.0.0.Beta1</wildfly.version>
+    <wildfly.version>40.0.0.Final</wildfly.version>
     <test-feature-pack.version>0.40.0-SNAPSHOT</test-feature-pack.version>
     <mvc-krazo-feature-pack.version>0.0.3-SNAPSHOT</mvc-krazo-feature-pack.version>
     <wildfly-cloud-galleon-pack.version>9.2.1.Final</wildfly-cloud-galleon-pack.version>

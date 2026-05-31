@@ -52,7 +52,7 @@
 
   <properties>
     <enforcer.skip>true</enforcer.skip>
-    <java.version>21</java.version>
+    <java.version>25</java.version>
     <javaee.version>11.0.0</javaee.version>
     <microprofile.version>7.1</microprofile.version>
 
@@ -387,6 +387,13 @@
 <!--
             <layer>web-clustering</layer>
 -->
+
+          <layer>mod_cluster</layer>
+          <!--
+          <layer>mvc-krazo</layer>
+          -->
+
+
             <layer>config-ext</layer>
             <layer>bucket4j</layer>
             <layer>jsonpath</layer>
